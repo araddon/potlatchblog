@@ -130,10 +130,6 @@ class AdminConfig(BaseController):
             blogedit = blogedit[0]
         else:
             blogedit = Blog()
-        #for b in blogedit:
-        #    b.delete()
-        #blogedit = Blog()
-        #blogedit = db.get(db.Key('agRibG9ncgoLEgRCbG9nGAQM'))
         self.render('views/setup.html',{'blogedit':blogedit,'blogclass':Blog})
     
     def post(self):
@@ -160,10 +156,8 @@ class AdminEntry(BaseController):
     @requires_admin
     def get(self,entrytype='post',key=None):
         entry = None
-        #print entrytype
         if key == None or key == '':
             entry = Entry()
-            #print entrytype
             entry.entrytype = entrytype
         else:
             entry = db.get(db.Key(key))
@@ -193,38 +187,13 @@ class AdminList(BaseController):
     @requires_admin
     def get(self,entrytype='post',template_vals={}):
         entries = Entry.all().filter('entrytype =',entrytype)
-        #entries = db.GqlQuery("SELECT * FROM Entry WHERE entrytype = :1", "'post'")
-        #entries = db.GqlQuery("SELECT * FROM Entry WHERE entrytype = 'post'")
-        #entries = db.GqlQuery("SELECT * FROM Entry")
-        #entries = Entry.all().order('-date')
-        # for entry in entries:
-        #   entry.entrytype = 'post'
-        #    entry.put
-        #    print 'entry.entrytype=%s, and = %s' % (entry.entrytype, entry.entrytype == 'post')
-        #    if entry.title == None or entry.title == '':
-        #        entry.delete()
-        #self.response.headers['Content-Type'] = 'text/plain'
-        #self.response.out.write('Hello, webapp World!')
         self.render('views/admin.html',{'entries':entries})
-    
-    def handle_exceptionNON(self,exception,debug_mode):
-        entries = Entry.all().order('-date')
-        print 'hello'
-        #raise('hello')
-        self.render('views/admin.html',{'entries':entries,'recententries':entries})
     
 
 class AdminLinks(BaseController):
     @requires_admin
     def get(self,linktype='blogroll'):
         links = Link.all()#.filter('linktype =',linktype)
-        #print linktype
-        #for link in links:
-        #if link.linktext == "techcrunch2":
-        #   link.delete()
-        #    link.linktype = 'blogroll'
-        #    link.put()
-        #    print link.linktext
         link = Link(href='',linktext='',linktype='blogroll')
         self.render('views/linkadmin.html',{'entries':None,'links':links,
             "link":link})
@@ -239,8 +208,6 @@ class AdminLinks(BaseController):
         link.linktext = self.request.get('linktext')
         link.href = self.request.get('title')
         link.put()
-        #self.response.headers['Content-Type'] = 'text/plain'
-        #self.response.out.write('Hello, webapp World!')
         self.response.out.write('link %s added' % link.linktype)
     
 
