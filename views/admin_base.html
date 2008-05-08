@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block head_javascript %}
+<script type="text/javascript" src="/static/jquery-1.2.3.min.js"></script>
+<script type='text/javascript' src='/static/jquery.dimensions.js'></script>
+<script type="text/javascript" src="/static/ui.mouse.js"></script>
+<script type="text/javascript" src="/static/ui.draggable.js"></script>
+<script type="text/javascript" src="/static/ui.sortable.js"></script>
+<script type="text/javascript" src="/static/jquery.form.js"></script>
+<script type="text/javascript" src="/static/jquery-uixx.min.js"></script>
+<script type="text/javascript" src="/static/admin.js"></script>
+
+{% endblock %}
+{% block topmenu %}
+<ul>
+    <li class="page_item page-item-2"><a href="/admin/entry/list/post" title="Write">Posts</a></li>
+    <li class="page_item page-item-2"><a href="/admin/links/blogroll" title="Blogroll">Blogroll</a></li>
+    <li class="page_item page-item-2"><a href="/admin/entry/list/page" title="Pages">Pages</a></li>
+    <li class="page_item page-item-2"><a href="/admin/setup" title="About">configuration</a></li>
+    <li class="page_item page-item-2" style="float:right;"><a href="{{ url }}" title="About">{{ url_linktext }}</a></li>
+    <div class="clear"></div>
+</ul>
+<span id="hiddenmessage" style="visibilityx:hidden;displayx:none;margin:0 40 0 0;" ></span>
+
+{% endblock %}

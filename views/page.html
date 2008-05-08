@@ -1,0 +1,22 @@
+{% extends "_base_public.html" %}
+
+
+{% block content %}
+<h1>{{ section.title }}</h1>
+    
+    <!-- Content Starts -->
+    <div id="content">
+    {% for entry in entries %}
+        <!-- Post Starts -->
+        <h2><a href="/entry/{{ entry.slug }}" rel="bookmark" title="{{ entry.title }}">{{ entry.title }}</a> </h2>
+
+        
+            <!-- Post Starts -->
+            <div class="post" class="post-9">
+                {{ entry.content|escape }}
+            </div>
+        <!-- Post Ends -->
+    {% endfor %}
+    </div>
+    <!-- Content Ends -->
+{% endblock %}

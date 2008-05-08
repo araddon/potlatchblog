@@ -1,0 +1,92 @@
+{% extends "admin_base.html" %}
+
+
+{% block featured %}
+    <!-- Admin Full Width -->
+
+    <!-- Full Width Ends -->
+{% endblock %}
+
+{% block content %}
+
+    <!-- Content Starts -->
+    <div id="content">
+        {% if not entries %}
+            <form  method="post" id="blogadmin">
+                
+                <fieldset style="">
+                    <legend>Blog Edit</legend>
+
+                    <!--<div class="instructions"><b>This</b> is instructions on how to accomplish </div>-->
+                    <div class="required">
+                        <label for="subject">Post Title:</label>
+                        <input type="text" id="title" name="title" value="{{ entry.title }}">
+                        <input type="hidden" id="entrytype" name="entrytype" value="{{ entry.entrytype }}">
+                    </div>
+                        
+                    <div class="required" id="permalink_div" style="display:none;">
+                        <label for="slug">Permalink:</label>
+                        <span id="permalink" class="secondary">
+                            {{ blog.baseurl }}/entry/
+                            <span id="editable-post-name" title="Click to edit this part of the permalink">YourPostName</span>
+                            /<a href="javascript:void(0)" id="editable-post-href">Edit</a>
+                        </span>
+                        <input type="hidden"  size="100" id="permalink"  value="{{ entry.slug }}" />
+                        <br /><input type="text" size="100" id="real_permalink" name="real_permalink" value="{{ entry.slug }}" />
+
+                    </div>
+                    <div class="optional">
+                        <label for="content">Post:</label>
+                        <textarea name="content" rows="8" cols="60" class="wide">{{ entry.content }}</textarea>
+                    </div>
+                    <div class="optional">
+                        <label for="tags">tags:</label>
+                        <input type="text" size="100" id="tags" name="tags"  value="{{ entry.tagswcommas }}">
+                    </div>
+                </fieldset>
+                <div class="actions"><input type="submit" class="primaryAction" id="submit" value="Save &#187;">
+                &nbsp;&nbsp;<a href="/admin/entry/list/{{ entry.entrytype }}" id="form_cancel">cancel</a></div>
+            </form>
+            
+            <script type="text/javascript">
+            $(document).ready(function(){
+                $('#blogadmin').blogadmin();
+            });
+            </script>
+        {% endif %}
+        {% for entry in entries %}
+            <h2><a href="/admin/entry/{{ entry.entrytype }}/{{ entry.key }}" rel="bookmark" title="{{ entry.title }}">{{ entry.title }}</a> type={{ entry.entrytype }}</h2>
+        {% endfor %}
+    </div>
+    <!-- Content Ends -->
+{% endblock %}
+
+{% block rightsidebar %}
+<!-- Right Sidebar Starts -->
+<div id="rightsidebar">
+    <h3>ADMIN</h3>
+    <ul>
+        {% for entry in recententries %}
+        <li><a href="#">{{ entry.title }} type={{ entry.entrytype }}</a></li>
+        {% endfor %}
+    </ul>
+    <h3>Tag Cloud</h3>
+    <ul>
+        tags
+    </ul>
+    <h3>Archives</h3>
+    <ul>
+        archives
+    </ul>
+    <h3>Blogs I Read</h3>
+    <ul>
+        <li><a href="http://cccarey.wordpress.com">Christian's</a></li>
+        <li><a href="http://www.carlosgabaldon.com">Carlos Gabaldon</a></li>
+    </ul>
+    <h3>Site Admin</h3>
+    <ul>
+        <li><a href="/admin/entry/list/post">Admin Logon</a></li>
+    </ul>
+</div>
+<!-- Right Sidebar Ends -->
+{% endblock %}

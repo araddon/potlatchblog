@@ -1,0 +1,83 @@
+{% extends "admin_base.html" %}
+
+
+{% block content %}
+
+    <!-- Content Starts -->
+    <div id="content">
+        <div id="links_div">
+        {% for link in links %}
+            <h2><a href="#" rel="bookmark" title="{{ link.linktext }}">{{ link.linktext }}  {{ link.linktype }}</a></h2>
+        {% endfor %}
+        </div>
+        <form  method="post" id="linkadminform">
+                <!--<div class="instructions"><b>This</b> is instructions on how to accomplish </div>-->
+                <div class="required">
+                    <label for="subject">Link Text/href:</label>
+                    <input type="text" id="linktext" name="linktext" value="{{ link.linktext }}" />
+                    <input type="text" id="href" name="href" value="{{ link.href }}">
+                    <input type="hidden" id="linktype" value="{{ link.linktype }}" />
+                </div>
+            <div class="actions"><input type="submit" class="primaryAction" id="submit" value="Save &#187;">
+            &nbsp;&nbsp;<a href="/admin/links/" id="form_cancel">cancel</a></div>
+        </form>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            //, 'cursor':'pointer'
+            $("#links_div").sortable({'items': 'h2','cursor':'move',
+                'update':function(responseText, statusText)  {
+                    alert('hello');
+                }});
+            $('#linkadminform').submit(function() {
+                var linktext = $('#linktext').val();
+                var href = $('#href').val();
+                $(this).ajaxSubmit({success: function(responseText, statusText)  {
+                    //alert(responseText);
+                    if (statusText == "success") {
+                        newid = responseText;
+                        $('#links_div').append('<h2>' + linktext + '</h2>');
+                        $("#links_div").sortable('refresh');
+                        $('#linktext,#href').val('');
+                        $.showmessage('Item Updated  ');
+                    } else {
+                        $.showmessage('There was an error  ' );
+                    }
+                }});
+                //alert('part 2')
+                return false;
+            });
+        });
+        </script>
+    </div>
+    <!-- Content Ends -->
+{% endblock %}
+
+{% block rightsidebar %}
+<!-- Right Sidebar Starts -->
+<div id="rightsidebar">
+    <h3>ADMIN</h3>
+    <ul>
+        {% for entry in recententries %}
+        <li><a href="#">{{ entry.title }} type={{ entry.entrytype }}</a></li>
+        {% endfor %}
+    </ul>
+    <h3>Tag Cloud</h3>
+    <ul>
+        tags
+    </ul>
+    <h3>Archives</h3>
+    <ul>
+        archives
+    </ul>
+    <h3>Blogs I Read</h3>
+    <ul>
+        <li><a href="http://cccarey.wordpress.com">Christian's</a></li>
+        <li><a href="http://www.carlosgabaldon.com">Carlos Gabaldon</a></li>
+    </ul>
+    <h3>Site Admin</h3>
+    <ul>
+        <li><a href="/admin/entry/list/post">Admin Logon</a></li>
+    </ul>
+</div>
+<!-- Right Sidebar Ends -->
+{% endblock %}

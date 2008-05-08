@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head profile="http://gmpg.org/xfn/11">
+    <title>{% block title %} {{ blog.title }}{% endblock %}</title>
+    <meta name="generator" content="GAEBlog" />
+    <link rel="stylesheet" href="/static/style.css" type="text/css" media="screen" />
+    <link rel="alternate" type="application/rss+xml" title="{{ blog.title }}" href="/rss" />
+    <link rel="pingback" href="/pingback" />
+    {% block head_javascript %}{% endblock %}
+</head>
+<body>
+
+<!-- Dashboard Starts -->
+<div id="dashboard">
+    <div class="dash">
+        <form method="get" id="searchtop" action="http://www.google.com/search">
+            <input type="text" name="q" id="q" size="28" value="to search, type and hit enter" onblur="if (this.value == '') {this.value = 'to search, type and hit enter';}"  onfocus="if (this.value == 'to search, type and hit enter') {this.value = '';}" />
+            <input name="domains" type="hidden" value="{{ blog.baseurl }}"/>
+            <input name="sitesearch" type="hidden" value="{{ blog.baseurl }}"/>
+        </form>
+        <a href="/rss" title="Subscribe to {{ blog.title }} RSS feed">Subscribe to my RSS feed <img src="/static/images/feed-icon-16x16.png" width="16" height="16" border="0" title="Subscribe to Blog's RSS feed" alt="RSS"/></a>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- Dashboard Ends -->
+
+<!-- Header Starts -->
+<div id="header">
+    <div class="headings">
+      <h1><a href="/" >{{ blog.title }}</a></h1>
+      <h2>{{ blog.subtitle }}</h2>
+      <div class="clear"></div>
+    </div>
+</div>
+<!-- Header Ends -->
+
+<!-- Nav Starts -->
+<div id="nav">
+    {% block topmenu %}
+
+    {% endblock %}
+    <!--[if lte IE 7]>
+    <div class="clear"></div>
+    <![endif]-->
+</div>
+<!-- Nav Ends -->
+
+<!-- Container Starts -->
+<div id="container">
+    <!-- Left Sidebar Starts 
+    <div id="leftsidebar">
+
+    </div>
+     LeftSidebar Ends -->
+    
+    <!-- Full Width Start-->
+    {% block featured %}
+    {% endblock %}
+    <!-- Featured Ends -->
+    
+    {% block content %}{% endblock %} 
+    
+    
+    {% block rightsidebar %}
+    <!-- Right Sidebar Starts -->
+    <div id="rightsidebar">
+        <h3>Recent Posts</h3>
+        <ul>
+            {% for entry in recententries %}
+            <li><a href="/entry/{{ entry.slug }}">{{ entry.title }}</a></li>
+            {% endfor %}
+        </ul>
+        <!--
+        <h3>Tag Cloud</h3>
+        <ul>
+            tags
+        </ul>
+        <h3>Archives</h3>
+        <ul>
+            archives
+        </ul>
+        -->
+        <h3>Blogs I Read</h3>
+        <ul>
+            {% for link in links %}
+            <li><a href="{{ link.href }}">{{ link.linktext }}</a></li>
+            {% endfor %}
+        </ul>
+        <h3>Site Admin</h3>
+        <ul>
+            <li><a href="/admin/entry/list/post">Admin Logon</a></li>
+        </ul>
+    </div>
+    <!-- Right Sidebar Ends -->
+    {% endblock %}
+
+<div class="clear"></div>
+</div>
+<!-- Container Ends -->
+
+<!-- Footer Starts -->
+<div id="footer">
+    <div class="footerinner">
+        <div class="footerc">
+            {{ blog.area1 }}
+        </div>
+
+        <div class="footerc">
+            {{ blog.area2 }}
+        </div>
+
+        <div class="footercalt">
+            {{ blog.area3 }}
+        </div>
+
+        <div id="credits">
+            <!-- Credit link can be removed by giving a $5 donation, it'll help us all build good karma! -->
+            <img src="/images/freshlogo.gif" alt="FreshPress Themes" title="visit www.freshpressthemes.com" width="85" height="29" border="0" />
+            <span>Theme from: <a href="http://www.freshpressthemes.com" title="See more fresh themes" target="_blank">FreshPress Themes</a> {% now "Y" %}</span> 
+            <!-- Do Not Remove -->
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- Footer Ends -->
+
+</body>
+</html>

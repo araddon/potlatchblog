@@ -1,0 +1,75 @@
+{% extends "_base_public.html" %}
+
+{% block featured %}
+    <!-- Featured Starts -->
+    {% if featured %}
+    <div id="featured" class="post-6">
+        <h2>
+            <span><a href="http://freshpressthemes.com/blog/wordpress-theme-optimized-for-advertisements/" rel="bookmark" title="Permanent Link to AdMints Theme">AdMints Theme</a></span>
+            <div class="fcomments"><a href="http://freshpressthemes.com/blog/wordpress-theme-optimized-for-advertisements/#comments" title="Comment on AdMints Theme">7 Comments</a></div>
+            <div style="clear:both;"></div>
+        </h2>
+        <!-- Featured Post Starts -->
+        <div id="fpost">
+            <div class="date">April 17, 2008</div>
+            <p><a href='http://freshpressthemes.com/blog/wp-content/uploads/2008/04/screenshot1.png'><img src="http://freshpressthemes.com/blog/wp-content/uploads/2008/04/screenshot1.png" alt="AdMints - Pepper" title="Mint" width="300" height="225" class="alignright size-full wp-image-7" /></a>If you&#8217;re looking at <strong>maximizing revenue</strong> through advertising, around your content, then the <strong>AdMints Theme</strong> is the perfect WordPress theme for you.</p>
+            <p>The main features of this theme are -</p>
+            <ol>
+            <li>Theme designed with Valid CSS</li>
+            <li>Fast loading, with post titles optimized for search engines</li>
+            </ol>
+            <p> <a href="http://freshpressthemes.com/blog/wordpress-theme-optimized-for-advertisements/#more-6" class="more-link">{Read More}</a></p>
+        </div>
+        <!-- Featured Post Ends -->
+
+        <div id="fmore"><!-- Featured Posts -->
+            <h2>More WordPress Themes</h2>
+            <ul> <!-- Enter the ID of your featured category at "category=" for it to work properly -->
+            <li><a href="http://freshpressthemes.com/blog/wordpress-theme-optimized-for-advertisements/">AdMints Theme</a></li>
+            <li><a href="http://freshpressthemes.com/blog/freshpress-theme/">FreshPress Theme v1.2</a></li>
+            </ul>
+        </div><!-- Featured Posts -->
+
+        <div class="clear"></div>
+    </div>
+    {% endif %}
+    <!-- Featured Ends -->
+{% endblock %}
+
+
+{% block content %}
+<h1>{{ section.title }}</h1>
+    
+    <!-- Content Starts -->
+    <div id="content">
+    {% for entry in entries %}
+        <!-- Post Starts -->
+        <div class="date">Posted: {{ entry.date|date:"F jS, Y " }}</div>
+        <h2><a href="/entry/{{ entry.slug }}" rel="bookmark" title="{{ entry.title }}">{{ entry.title }}</a> </h2>
+            <div class="meta">
+                <ul>
+                <li>Written by <a href="#" title="Posts by #">{{ entry.author.nickname }}</a></li>
+                <li><a href="#comments" title="Read what people are saying">Read the comments</a></li>
+                </ul>
+            </div>
+        
+            <!-- Post Starts -->
+            <div class="post" class="post-9">
+                {{ entry.content|escape }}
+            </div>
+            <div class="meta">
+                tags: 
+                {% for tag in entry.tags %}
+                    <a href="/entry/tags/{{ tag }}" title="View all posts in #" rel="category tag">{{ tag }}</a>, 
+                {% endfor %}
+                
+            </div>
+            <div class="commentmeta">
+                <a href="#comments" title="Comment on Demiauce Comment System">3 people commented already</a>
+            </div>
+        <!-- Post Ends -->
+    {% endfor %}
+        NAVIGATION.php
+    </div>
+    <!-- Content Ends -->
+{% endblock %}

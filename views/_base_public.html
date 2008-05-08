@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block head_javascript %}
+{% endblock %}
+{% block topmenu %}
+<ul>
+    <li class="page_item page-item-2"><a href="/" title="Home">Home</a></li>
+    {% for page in pages %}
+    <li class="page_item page-item-2"><a href="/page/{{ page.slug }}" title="{{ page.title }}">{{ page.title }}</a></li>
+    {% endfor %}
+    <div class="clear"></div>
+</ul>
+{% endblock %}
