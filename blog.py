@@ -15,9 +15,8 @@ def requires_admin(method):
     def wrapper(self, *args, **kwargs):
         user = users.get_current_user()
         if not user:
-            if self.request.method == "GET":
-                self.redirect(users.create_login_url(self.request.uri))
-                return
+            self.redirect(users.create_login_url(self.request.uri))
+            return
             raise self.error(403)
         elif not users.is_current_user_admin():
             #self.response.clear()
@@ -141,6 +140,7 @@ class AdminConfig(BaseController):
             blogedit.initialsetup()
         self.render('views/setup.html',{'blogedit':blogedit,'blogclass':Blog})
     
+    @requires_admin
     def post(self):
         key = self.request.get('object_key')
         if key == None or key == '': #new
@@ -174,6 +174,7 @@ class AdminEntry(BaseController):
         
         self.render('views/admin.html',{'entry':entry,'entries':[]})
     
+    @requires_admin
     def post(self,entrytype='post',key=None):
         entry = None
         if key == None or key == '':
@@ -208,6 +209,7 @@ class AdminLinks(BaseController):
         self.render('views/linkadmin.html',{'entries':None,'links':links,
             "link":link})
     
+    @requires_admin
     def post(self,linktype='blogroll',key=None):
         link = None
         if key == None or key == '':
