@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head profile="http://gmpg.org/xfn/11">
     <title>{% block title %} {{ blog.title }}{% endblock %}</title>
-    <meta name="generator" content="GAEBlog" />
+    <meta name="generator" content="PotlatchBlog" />
     <link rel="stylesheet" href="/static/style.css" type="text/css" media="screen" />
-    <link rel="alternate" type="application/rss+xml" title="{{ blog.title }}" href="/rss" />
+    <link rel="alternate" type="application/rss+atom" title="{{ blog.title }}" href="/atom" />
     <link rel="pingback" href="/pingback" />
     {% block head_javascript %}{% endblock %}
 </head>
@@ -18,7 +18,7 @@
             <input name="domains" type="hidden" value="{{ blog.baseurl }}"/>
             <input name="sitesearch" type="hidden" value="{{ blog.baseurl }}"/>
         </form>
-        <a href="/rss" title="Subscribe to {{ blog.title }} RSS feed">Subscribe to my RSS feed <img src="/static/images/feed-icon-16x16.png" width="16" height="16" border="0" title="Subscribe to Blog's RSS feed" alt="RSS"/></a>
+        <a href="/atom" title="Subscribe to {{ blog.title }} RSS feed">Subscribe to my RSS feed <img src="/static/images/feed-icon-16x16.png" width="16" height="16" border="0" title="Subscribe to Blog's RSS feed" alt="RSS"/></a>
         <div class="clear"></div>
     </div>
 </div>

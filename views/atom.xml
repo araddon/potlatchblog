@@ -1,0 +1,14 @@
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>{{ blog.title }} </title>
+    <id>{{ blog.baseurl }}/feed</id>
+    <link href="{{ blog.title }}/feed" rel="self" />
+{% for entry in entries %}
+  <entry>
+      <id>{{ blog.baseurl }}/entry/{{entry.slug}}</id>
+      <title>{{entry.title}}</title>
+      <content type="html">{{entry.content}}</content>
+      <author><name>{{entry.author}}</name></author>
+      <updated>{{entry.date}}</updated>
+  </entry>
+{% endfor %}
+</feed>

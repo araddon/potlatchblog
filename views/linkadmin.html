@@ -51,33 +51,3 @@
     </div>
     <!-- Content Ends -->
 {% endblock %}
-
-{% block rightsidebar %}
-<!-- Right Sidebar Starts -->
-<div id="rightsidebar">
-    <h3>ADMIN</h3>
-    <ul>
-        {% for entry in recententries %}
-        <li><a href="#">{{ entry.title }} type={{ entry.entrytype }}</a></li>
-        {% endfor %}
-    </ul>
-    <h3>Tag Cloud</h3>
-    <ul>
-        tags
-    </ul>
-    <h3>Archives</h3>
-    <ul>
-        archives
-    </ul>
-    <h3>Blogs I Read</h3>
-    <ul>
-        <li><a href="http://cccarey.wordpress.com">Christian's</a></li>
-        <li><a href="http://www.carlosgabaldon.com">Carlos Gabaldon</a></li>
-    </ul>
-    <h3>Site Admin</h3>
-    <ul>
-        <li><a href="/admin/entry/list/post">Admin Logon</a></li>
-    </ul>
-</div>
-<!-- Right Sidebar Ends -->
-{% endblock %}

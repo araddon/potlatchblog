@@ -1,5 +1,13 @@
 {% extends "_base_public.html" %}
 
+{% block title %} 
+{% if entries %}
+    {% for entry in entries %}
+        {{ entry.title }} 
+    {% endfor %} on
+{% endif %}
+{{ blog.title }}
+{% endblock %}
 
 {% block content %}
 <h1>{{ section.title }}</h1>
@@ -13,7 +21,7 @@
         
             <!-- Post Starts -->
             <div class="post" class="post-9">
-                {{ entry.content|escape }}
+                {{ entry.content }}
             </div>
         <!-- Post Ends -->
     {% endfor %}

@@ -7,7 +7,7 @@
 <script type="text/javascript" src="/static/ui.draggable.js"></script>
 <script type="text/javascript" src="/static/ui.sortable.js"></script>
 <script type="text/javascript" src="/static/jquery.form.js"></script>
-<script type="text/javascript" src="/static/jquery-uixx.min.js"></script>
+<!--<script type="text/javascript" src="/static/jquery-ui.min.js"></script>-->
 <script type="text/javascript" src="/static/admin.js"></script>
 
 {% endblock %}
@@ -16,10 +16,46 @@
     <li class="page_item page-item-2"><a href="/admin/entry/list/post" title="Write">Posts</a></li>
     <li class="page_item page-item-2"><a href="/admin/links/blogroll" title="Blogroll">Blogroll</a></li>
     <li class="page_item page-item-2"><a href="/admin/entry/list/page" title="Pages">Pages</a></li>
-    <li class="page_item page-item-2"><a href="/admin/setup" title="About">configuration</a></li>
+    <li class="page_item page-item-2"><a href="/admin/setup" title="About">Configuration</a></li>
     <li class="page_item page-item-2" style="float:right;"><a href="{{ url }}" title="About">{{ url_linktext }}</a></li>
     <div class="clear"></div>
 </ul>
 <span id="hiddenmessage" style="visibilityx:hidden;displayx:none;margin:0 40 0 0;" ></span>
 
+{% endblock %}
+
+{% block rightsidebar %}
+<!-- Right Sidebar Starts -->
+<div id="rightsidebar">
+    <h3>ADMIN</h3>
+    <ul>
+        {% for entry in recententries %}
+        <li><a href="#">{{ entry.title }} type={{ entry.entrytype }}</a></li>
+        {% endfor %}
+    </ul>
+    <div class="actionbar" style="heightxx:34px; ">
+        <div class="boxlinks"  style="margin-top:-4px;">
+            <ul class="boxlink">
+                <li style="list-style-type:none;"><a href="/admin/entry/post" id="addpost" objid="">
+                    <img  alt="Add New Post" src="/static/images/icon_add.png" style="vertical-align: bottom;" border="0" />
+                    Add New Post</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="actionbar" style="heightxx:34px; ">
+        <div class="boxlinks"  style="margin-top:-4px;">
+            <ul>
+                <li style="list-style-type:none;"><a href="/admin/entry/page" id="addpage" objid="">
+                    <img  alt="Add New Page" src="/static/images/icon_add.png" style="vertical-align: bottom;" border="0" />
+                    Add New Page</a></li>
+            </ul>
+        </div>
+    </div>
+    <br />
+    <h3>Site Admin</h3>
+    <ul>
+        <li><a href="/admin/entry/list/post">Admin Logon</a></li>
+    </ul>
+</div>
+<!-- Right Sidebar Ends -->
 {% endblock %}

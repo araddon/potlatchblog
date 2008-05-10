@@ -121,6 +121,13 @@ class TagPage(BasePublicPage):
         self.render('views/index.html',{'entries':entries})
     
 
+class FeedHandler(BaseController):
+    def get(self,tags=None):
+        entries = Entry.all().filter('entrytype =','post').order('-date').fetch(10)
+        self.response.headers['Content-Type'] = 'application/atom+xml'
+        self.render('views/atom.xml',{'entries':entries})
+    
+
 class AdminConfig(BaseController):
     @requires_admin
     def get(self):
@@ -130,6 +137,8 @@ class AdminConfig(BaseController):
             blogedit = blogedit[0]
         else:
             blogedit = Blog()
+            blogedit.save()
+            blogedit.initialsetup()
         self.render('views/setup.html',{'blogedit':blogedit,'blogclass':Blog})
     
     def post(self):
@@ -145,10 +154,11 @@ class AdminConfig(BaseController):
         blog.title = self.request.get('title')
         blog.subtitle = self.request.get('subtitle')
         blog.layout = self.request.get('layout')
+        blog.baseurl = self.request.get('baseurl')
         blog.area1 = self.request.get('area1')
         blog.area2 = self.request.get('area2')
         blog.area3 = self.request.get('area3')
-        blog.put()
+        blog.save()
         self.redirect('/admin/entry/list/post')
     
 
@@ -167,7 +177,7 @@ class AdminEntry(BaseController):
     def post(self,entrytype='post',key=None):
         entry = None
         if key == None or key == '':
-            entry = Entry()
+            entry = Entry(blog=self.blog)
             entry.entrytype = self.request.get('entrytype')
         else:
             entry = db.get(db.Key(key))
@@ -178,7 +188,7 @@ class AdminEntry(BaseController):
         entry.content = self.request.get('content')
         entry.title = self.request.get('title')
         entry.slug = self.request.get('real_permalink')
-        self.tagswcommas = self.request.get('tags')
+        entry.tagswcommas = self.request.get('tags')
         entry.save()
         self.redirect('/admin/entry/list/%s' % entry.entrytype )
     
@@ -220,6 +230,7 @@ def main():
                      ('/admin/links/(.*)', AdminLinks),
                      ('/admin/setup', AdminConfig),
                      ('/tag/(.*)', TagPage),
+                     ('/atom', FeedHandler),
                      (r'/page/(.*)', PublicPage),
                      (r'/entry/(.*)', MainPage),
                      (r'/b/(.*)/(.*)', MainPage),

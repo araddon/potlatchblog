@@ -83,7 +83,6 @@ img.alignleft {float: left;margin: 0px 10px 10px 0px;padding: 0px;border: 1px so
 /* Main Container Ends */
 
 /* Featured Area Starts */
-
 #featured {line-height: normal;width: 966px;border: 1px solid #2583ad;margin: 0px 0px 15px;padding: 2px;}
 #featured h2 {background: #d54e21;padding: 10px;margin: 0px;text-align: left;font: bold 1.4em Georgia, "Times New Roman", Times, serif;}
 #featured h2 span {padding: 0px;width: 800px;float: left;}
@@ -136,7 +135,6 @@ img.alignleft {float: left;margin: 0px 10px 10px 0px;padding: 0px;border: 1px so
 /* Right Sidebar Ends */
 
 /* Sidebar Calendar Starts */
-
 #calendar_wrap {margin: 0px;padding: 0px 0px 10px;}
 #wp-calendar {width: 174px;}
 #today {text-align: center;background: #C4E2FB!important;}
@@ -153,6 +151,30 @@ table#wp-calendar td {text-align: center;background: #e4f2fd;}
 #tag_cloud a:hover {color: #d54e21;text-decoration: none;}
 .textwidget, .adrotatorwidget {margin: 0px;padding: 0px 0px 10px;}
 /* Sidebar Tags Ends */
+
+
+/* Box Links, and action bar    border: red 1px solid;  */
+.boxlinks {font-size: 85%;}
+.inlineboxlinks {padding: 1em;margin: 1em 0;clear: left;}
+.actionbar {margin: 0px;clear: right; padding: 0px;font-size: 115%;display: block; width:100%;height:33px; }
+.actionbar a {font-size: 123%;background:#fafafa;height:22px;}
+.right {float: right;}
+.boxlinks2 {font-size: 85%;margin-top:-24px; margin-right:-11px;background-color:#ffffff;}
+.boxlinks2 a {border: 1px solid #235C9D;text-decoration: none;padding: 3px 5px;}
+.boxlinks a, .boxlinks span {margin-top:2px; display: block;vertical-align: bottom; float: left;padding: 0.2em 0.5em;margin-right: 0.15em;}
+.boxlinks span.current {border: 1px solid #235C9D;font-weight: bold;background: #235C9D;color: #fff;}
+.boxlinks a {border: 1px solid #235C9D;text-decoration: none;}
+.boxlinks a:hover {background:#E1ECF9;}
+.boxlinks a.nextprev {font-weight: bold;}
+.boxlinks span.nextprev {color: #666;}
+.boxlinks span.nextprev {border: 1px solid #ddd;color: #999;}
+ul.boxlink {list-style-type:none;}
+div.boxlinks a.current {border-bottom: 1px solid #E1ECF9;;background:#E1ECF9;	}
+.tab-spacer{background:#E1ECF9;border:0px solid #8db2e3;border-top:0 none;height:2px;font-size:1px;line-height:1px;}
+div.formbox {border:1px solid #8db2e3;margin-top:20px;}
+
+/*  code formatting for posts */
+.code {color: #63FF00;background: #000;overflow: auto;font: normal 12px "bitstream vera sans mono", monaco "lucida console", "courier new", courier, serif;margin: 0.9em 0; padding: 8px;}
 
 /* Footer Starts */
 

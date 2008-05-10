@@ -49,27 +49,31 @@
             <div class="meta">
                 <ul>
                 <li>Written by <a href="#" title="Posts by #">{{ entry.author.nickname }}</a></li>
-                <li><a href="#comments" title="Read what people are saying">Read the comments</a></li>
+                <!--<li><a href="#comments" title="Read what people are saying">Read the comments</a></li>-->
                 </ul>
             </div>
         
             <!-- Post Starts -->
             <div class="post" class="post-9">
-                {{ entry.content|escape }}
+                {{ entry.content }}
             </div>
             <div class="meta">
                 tags: 
                 {% for tag in entry.tags %}
-                    <a href="/entry/tags/{{ tag }}" title="View all posts in #" rel="category tag">{{ tag }}</a>, 
+                    <a href="/tag/{{ tag }}" title="View all posts in #" rel="category tag">{{ tag }}</a>{% if not forloop.last %},{% endif %} 
                 {% endfor %}
                 
             </div>
             <div class="commentmeta">
-                <a href="#comments" title="Comment on Demiauce Comment System">3 people commented already</a>
+                {% if entry.commentcount %}
+                    <a href="#comments" title="Comment on Demiauce Comment System">{{ entry.commentcount }} comments</a>
+                {% else %} 
+                
+                {% endif %}
+                
             </div>
         <!-- Post Ends -->
     {% endfor %}
-        NAVIGATION.php
     </div>
     <!-- Content Ends -->
 {% endblock %}
