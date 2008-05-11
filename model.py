@@ -21,7 +21,7 @@ class Blog(db.Model):
     area2 = db.TextProperty(default='')
     area3 = db.TextProperty(default='')
     tags = db.TextProperty(default='{}')
-    analyticsjs = db.StringProperty(multiline=False,default='')
+    analyticsjs = db.StringProperty(multiline=True,default='')
     
     def save(self):
         self.put()
