@@ -1,7 +1,6 @@
 from google.appengine.api import users
-#from google.appengine.ext import webapp
 from google.appengine.ext import db
-
+from datetime import datetime
 
 class Cache(db.Model):
     cachekey = db.StringProperty(multiline=False)
@@ -21,6 +20,7 @@ class Blog(db.Model):
     area1 = db.TextProperty(default='')
     area2 = db.TextProperty(default='')
     area3 = db.TextProperty(default='')
+    archivehtml = db.TextProperty(default='')
     tags = db.TextProperty(default='{}')
     analyticsjs = db.StringProperty(multiline=True,default='')
     
@@ -34,6 +34,13 @@ class Blog(db.Model):
         self.area2 = '<h3>Center Bottom Box</h3>\nContent in center footer'
         self.area3 = '<h3>Right Footer</h3>\nContent in footer right'
     
+
+class Archive(db.Model):
+    blog = db.ReferenceProperty(Blog)
+    monthyear = db.StringProperty(multiline=False)
+    """March-08"""
+    entrycount = db.IntegerProperty(default=1)
+    date = db.DateTimeProperty(auto_now_add=True)
 
 class Tag(db.Model):
     blog = db.ReferenceProperty(Blog)
@@ -55,6 +62,7 @@ class Entry(db.Model):
     date = db.DateTimeProperty(auto_now_add=True)
     tags = db.ListProperty(db.Category)
     slug = db.StringProperty(multiline=False,default='')
+    monthyear = db.StringProperty(multiline=False)
     entrytype = db.StringProperty(multiline=False,default='post',choices=[
         'post','page'])
     commentcount = db.IntegerProperty(default=0)
@@ -81,6 +89,16 @@ class Entry(db.Model):
         if not self.is_saved():
             self.blog.entrycount += 1
             self.blog.save()
+            my = datetime.now().strftime('%b-%Y')
+            archive = Archive.all().filter('monthyear',my).fetch(10)
+            if archive == []:
+                archive = Archive(blog=self.blog,monthyear=my)
+                self.monthyear = my
+                archive.put()
+            else:
+                # ratchet up the count
+                archive[0].entrycount += 1
+                archive[0].put()
         #b = self.blog
         #print b.tags
         #for tag in self.tagsnew:

@@ -43,11 +43,11 @@
                         <fieldset>
                             <legend>Published?</legend>
                             <label class="labelRadio" for="published">
-                                <input id="published_true" class="inputRadio" type="radio" {% if entry.published %}checked="checked"{% endif %} value="True" name="published" />
+                                <input id="published_true" class="inputRadio" type="radio" {% if entry.published %}checked="checked"{% endif %} value="1" name="published" />
                                 Yes, Publish
                             </label>
                             <label class="labelRadio" for="published">
-                                <input id="published_false" class="inputRadio" type="radio" {% if entry.published %}{% else %}checked="checked"{% endif %} value="False" name="published"/>
+                                <input id="published_false" class="inputRadio" type="radio" {% if entry.published %}{% else %}checked="checked"{% endif %} value="0" name="published" />
                                 Save in Draft
                             </label>
                         </fieldset>
@@ -68,9 +68,28 @@
             </script>
         {% endif %}
         {% for entry in entries %}
-            <h2><a href="/admin/entry/{{ entry.entrytype }}/{{ entry.key }}" rel="bookmark" title="{{ entry.title }}">{{ entry.title }}</a> </h2>
+            <div><h2><a href="/admin/entry/{{ entry.entrytype }}/{{ entry.key }}" rel="bookmark" title="{{ entry.title }}">{{ entry.title }}</a> </h2>
+                <a href="/admin/entry/{{ entry.key }}" class="entrydelete" >delete</a>
+            </div>
         {% endfor %}
     </div>
     <!-- Content Ends -->
+    <script type="text/javascript">
+    $(document).ready(function(){
+        $('a.entrydelete').bind('click', function() {
+          var deleteLink = $(this)
+          $.ajax({
+            type: 'DELETE',
+            url: deleteLink.attr('href'),
+            success: function(){
+                deleteLink.parent().remove();
+                $.showmessage('Item Deleted  ');
+            }
+          })
+          return false;
+        })
+        
+    });
+    </script>
 {% endblock %}
 

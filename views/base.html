@@ -74,12 +74,14 @@
         <h3>Tag Cloud</h3>
         <ul>
             tags
-        </ul>
+        </ul> -->
         <h3>Archives</h3>
         <ul>
-            archives
+            {% for a in archives %}
+            <li><a href="/archive/{{ a.monthyear }}">{{ a.monthyear }}</a></li>
+            {% endfor %}
         </ul>
-        -->
+        
         <h3>Blogs I Read</h3>
         <ul>
             {% for link in links %}

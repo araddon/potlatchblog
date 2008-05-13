@@ -86,10 +86,11 @@ class BasePublicPage(BaseController):
     """
     def __before__(self,slug=None):
         pages = Entry.all().filter("entrytype =", "page").filter("published =", True).fetch(20)
+        archives = Archive.all().order('-date').fetch(10)
         recententries = Entry.all().filter('entrytype =','post').order('-date').fetch(10)
         links = Link.all().filter('linktype =','blogroll')
         self.template_vals.update({'recententries':recententries,
-            'pages':pages,'links':links})
+            'pages':pages,'links':links,'archives':archives})
     
 
 class MainPage(BasePublicPage):
@@ -109,6 +110,13 @@ class PublicPage(BasePublicPage):
     def get(self,slug=None):
         entries = Entry.all().filter('slug', slug).filter("published =", True)
         self.render('views/page.html',{'entries':entries})
+    
+
+class ArchivePage(BasePublicPage):
+    def get(self,monthyear=None):
+        entries = Entry.all().filter('monthyear', monthyear).\
+            filter("published =", True).order('-date')
+        self.render('views/index.html',{'entries':entries})
     
 
 class TagPage(BasePublicPage):
@@ -185,18 +193,31 @@ class AdminEntry(BaseController):
             entry.author = users.get_current_user()
         
         entry.content = self.request.get('content')
-        entry.published = bool(self.request.get('published'))
+        entry.published = bool(int(self.request.get('published')))
         entry.title = self.request.get('title')
         entry.slug = self.request.get('real_permalink')
         entry.tagswcommas = self.request.get('tags')
         entry.save()
         self.redirect('/admin/entry/list/%s' % entry.entrytype )
     
+    @requires_admin
+    def delete(self,key=None):
+        entry = None
+        if key == None or key == '':
+            print 'whoops'
+        else:
+            entry = db.get(db.Key(key))
+            entry.delete()
+        
+    
 
 class AdminList(BaseController):
     @requires_admin
     def get(self,entrytype='post',template_vals={}):
-        entries = Entry.all().filter('entrytype =',entrytype)
+        entries = Entry.all().filter('entrytype =',entrytype).order('-date')
+        archive = Archive.all()
+        #for a in archive:
+        #    a.delete()
         self.render('views/admin.html',{'entries':entries})
     
 
@@ -230,9 +251,11 @@ def main():
                      ('/admin/entry/(.*)', AdminEntry),
                      ('/admin/links/(.*)', AdminLinks),
                      ('/admin/setup', AdminConfig),
+                     ('/admin/migrate', AdminMigrate),
                      ('/tag/(.*)', TagPage),
                      ('/atom', FeedHandler),
                      (r'/page/(.*)', PublicPage),
+                     (r'/archive/(.*)', ArchivePage),
                      (r'/entry/(.*)', MainPage),
                      ],debug=True)
     wsgiref.handlers.CGIHandler().run(application)
