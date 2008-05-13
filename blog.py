@@ -50,7 +50,10 @@ class BaseController(webapp2.RequestHandler):
             pass
         else:
             self.blog = self.blog[0]
-        self.template_vals = {}
+        current_userisadmin = False
+        if users.get_current_user() and users.is_current_user_admin():
+            current_userisadmin = True
+        self.template_vals = {'current_userisadmin':current_userisadmin}
     
     def __before__(self,*args):
         pass
