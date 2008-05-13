@@ -58,10 +58,12 @@
                 {{ entry.content }}
             </div>
             <div class="meta">
+                {% if entry.tags %}
                 tags: 
                 {% for tag in entry.tags %}
                     <a href="/tag/{{ tag }}" title="View all posts in #" rel="category tag">{{ tag }}</a>{% if not forloop.last %},{% endif %} 
                 {% endfor %}
+                {% endif %}
                 
             </div>
             <div class="commentmeta">
