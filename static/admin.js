@@ -26,11 +26,11 @@
              //$("#hiddenmessage").animate({height: 'toggle',opacity: 'toggle'},{duration: 4000});
          }
     });
-    //If the Demisauce scope is not availalable, add it
+    //If the ds scope not available, add it
     $.ds = $.ds || {};
 
     /*
-    *  Demisauce Blog Web Admin
+    *   Blog Web Admin
     */
     $.fn.blogadmin = function(o) {
         return this.each(function() {
@@ -50,12 +50,10 @@
         self.options = options;
         $.data(this.element, "ds-blogadmin", this);
         $(options.title).blur(function(e){
-            //alert('bluring title');
             self.show(this);
         });
         //"#editable-post-name,#editable-post-href"
         $(options.permalink_span + ',' + options.permalink_edit).click(function() {
-            //alert('clicking edit on name');
             self.slugedit(this);
          });
          $('#form_cancel').click(function() {
@@ -75,7 +73,7 @@
             $(self.options.permalink_span).html($(self.options.permalink_sel).val());
             var slug = $(self.options.permalink_sel).val();
             if (slug == '') {
-                slug = $(self.options.title).val().replace(/ /g,'-').replace(/'/g,'').replace(/"/g,'');
+                slug = $(self.options.title).val().replace(/ /g,'-').toLowerCase().replace(/[^a-z\-]/g,'');
                 $(self.options.permalink_sel).val(slug);
             }else{
                 

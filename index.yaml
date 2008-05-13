@@ -16,14 +16,14 @@ indexes:
   - name: date
     direction: desc
 
-# Used 39 times in query history.
+# Used 49 times in query history.
 - kind: Entry
   properties:
   - name: entrytype
   - name: date
     direction: desc
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Entry
   properties:
   - name: entrytype

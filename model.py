@@ -17,6 +17,7 @@ class Blog(db.Model):
     entrycount = db.IntegerProperty(default=0)
     layout = db.StringProperty(multiline=False,default='2cola',choices=[
         '3cola', '3colb', '2cola','2colb'])
+    theme = db.StringProperty(multiline=False,default='freshpress.css')
     area1 = db.TextProperty(default='')
     area2 = db.TextProperty(default='')
     area3 = db.TextProperty(default='')
