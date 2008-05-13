@@ -14,6 +14,7 @@ class Blog(db.Model):
     title = db.StringProperty(multiline=False)
     subtitle = db.StringProperty(multiline=False)
     entrycount = db.IntegerProperty(default=0)
+    blogversion = db.StringProperty(multiline=False,default='1.15')
     layout = db.StringProperty(multiline=False,default='2cola',choices=[
         '3cola', '3colb', '2cola','2colb'])
     theme = db.StringProperty(multiline=False,default='freshpress.css')
@@ -79,6 +80,21 @@ class Entry(db.Model):
     
     tagswcommas = property(get_tags,set_tags)
     
+    def update_archive(self):
+        """Checks to see if there is a month-year entry for the
+        month of current blog, if not creates it and increments count"""
+        my = datetime.now().strftime('%b-%Y') # May-2008
+        archive = Archive.all().filter('monthyear',my).fetch(10)
+        if archive == []:
+            archive = Archive(blog=self.blog,monthyear=my)
+            self.monthyear = my
+            archive.put()
+        else:
+            # ratchet up the count
+            archive[0].entrycount += 1
+            archive[0].put()
+        
+    
     def save(self):
         """
         Use this instead of self.put(), as we do some other work here
@@ -89,16 +105,8 @@ class Entry(db.Model):
         if not self.is_saved():
             self.blog.entrycount += 1
             self.blog.save()
-            my = datetime.now().strftime('%b-%Y')
-            archive = Archive.all().filter('monthyear',my).fetch(10)
-            if archive == []:
-                archive = Archive(blog=self.blog,monthyear=my)
-                self.monthyear = my
-                archive.put()
-            else:
-                # ratchet up the count
-                archive[0].entrycount += 1
-                archive[0].put()
+            
+            self.update_archive()
         #b = self.blog
         #print b.tags
         #for tag in self.tagsnew:

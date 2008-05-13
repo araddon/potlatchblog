@@ -2,7 +2,8 @@ import cgi, os
 from functools import wraps
 import wsgiref.handlers
 
-from google.appengine.ext.webapp import template
+from google.appengine.ext.webapp import template, \
+    WSGIApplication
 from google.appengine.api import users
 import webapp as webapp2
 from google.appengine.ext import webapp
@@ -44,6 +45,7 @@ class BaseController(webapp2.RequestHandler):
     def __init__(self):
         self.template = 'index.html'
         self.blog = Blog.all().fetch(1)
+        #self.app_version = WSGIApplication.active_instance
         if self.blog == []:
             pass
         else:
@@ -115,7 +117,7 @@ class PublicPage(BasePublicPage):
 class ArchivePage(BasePublicPage):
     def get(self,monthyear=None):
         entries = Entry.all().filter('monthyear', monthyear).\
-            filter("published =", True).order('-date')
+            filter("published =", True).filter('entrytype','post').order('-date')
         self.render('views/index.html',{'entries':entries})
     
 
@@ -215,11 +217,27 @@ class AdminList(BaseController):
     @requires_admin
     def get(self,entrytype='post',template_vals={}):
         entries = Entry.all().filter('entrytype =',entrytype).order('-date')
-        archive = Archive.all()
-        #for a in archive:
-        #    a.delete()
         self.render('views/admin.html',{'entries':entries})
     
+
+class AdminMigrate(BaseController):
+    @requires_admin
+    def get(self,to_version='1.15'):
+        if to_version == '1.16':
+            archives = Archive.all()
+            for a in archives:
+                a.delete()
+            entries = Entry.all().filter('entrytype =','post')
+            for e in entries:
+                e.update_archive()
+                e.monthyear = e.date.strftime('%b-%Y')
+                e.put()
+                print 'update to %s' % (e.monthyear)
+            archive = Archive.all()
+            self.blog.blogversion = to_version
+            self.blog.put()
+    
+
 
 class AdminLinks(BaseController):
     @requires_admin
@@ -251,7 +269,7 @@ def main():
                      ('/admin/entry/(.*)', AdminEntry),
                      ('/admin/links/(.*)', AdminLinks),
                      ('/admin/setup', AdminConfig),
-                     ('/admin/migrate', AdminMigrate),
+                     ('/admin/migrate/(.*)', AdminMigrate),
                      ('/tag/(.*)', TagPage),
                      ('/atom', FeedHandler),
                      (r'/page/(.*)', PublicPage),
