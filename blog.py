@@ -85,9 +85,8 @@ class BasePublicPage(BaseController):
     Do all the common public page prep such as nav pages etc
     """
     def __before__(self,slug=None):
-        pages = Entry.all().filter("entrytype =", "page").fetch(20)
+        pages = Entry.all().filter("entrytype =", "page").filter("published =", True).fetch(20)
         recententries = Entry.all().filter('entrytype =','post').order('-date').fetch(10)
-        #links = Link.all().filter("linktype =", "blogroll").fetch(20)
         links = Link.all().filter('linktype =','blogroll')
         self.template_vals.update({'recententries':recententries,
             'pages':pages,'links':links})
@@ -95,22 +94,20 @@ class BasePublicPage(BaseController):
 
 class MainPage(BasePublicPage):
     #@printinfo
-    def get(self,url_part1=None,url_part2=None):
-        #entries = Entry.all().filter("tags =", "none").order('-date')
+    def get(self,slug=None):
         entries = []
-        if url_part2 == None and url_part1 == None:
-            entries = Entry.all().filter('entrytype =','post').order('-date').fetch(10)
-        elif url_part2 == None:
-            entries = Entry.all().filter('slug', url_part1)
+        if slug == None:
+            entries = Entry.all().filter('entrytype =','post').\
+                filter("published =", True).order('-date').fetch(10)
         else:
-            entries = db.GqlQuery("SELECT * FROM Entry WHERE slug = :1", url_part2)
+            entries = Entry.all().filter('slug', slug).filter("published =", True)
         
         self.render('views/index.html',{'entries':entries})
     
 
 class PublicPage(BasePublicPage):
     def get(self,slug=None):
-        entries = db.GqlQuery("SELECT * FROM Entry WHERE slug = :1", slug)
+        entries = Entry.all().filter('slug', slug).filter("published =", True)
         self.render('views/page.html',{'entries':entries})
     
 
@@ -188,6 +185,7 @@ class AdminEntry(BaseController):
             entry.author = users.get_current_user()
         
         entry.content = self.request.get('content')
+        entry.published = bool(self.request.get('published'))
         entry.title = self.request.get('title')
         entry.slug = self.request.get('real_permalink')
         entry.tagswcommas = self.request.get('tags')
@@ -236,7 +234,6 @@ def main():
                      ('/atom', FeedHandler),
                      (r'/page/(.*)', PublicPage),
                      (r'/entry/(.*)', MainPage),
-                     (r'/b/(.*)/(.*)', MainPage),
                      ],debug=True)
     wsgiref.handlers.CGIHandler().run(application)
 

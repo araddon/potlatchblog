@@ -49,6 +49,7 @@ class Link(db.Model):
 class Entry(db.Model):
     author = db.UserProperty()
     blog = db.ReferenceProperty(Blog)
+    published = db.BooleanProperty(default=False)
     content = db.TextProperty(default='')
     title = db.StringProperty(multiline=False,default='')
     date = db.DateTimeProperty(auto_now_add=True)

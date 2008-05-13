@@ -39,6 +39,19 @@
                         <label for="content">Post:</label>
                         <textarea name="content" rows="8" cols="60" class="wide">{{ entry.content }}</textarea>
                     </div>
+                    <div class="optional" style="">
+                        <fieldset>
+                            <legend>Published?</legend>
+                            <label class="labelRadio" for="published">
+                                <input id="published_true" class="inputRadio" type="radio" {% if entry.published %}checked="checked"{% endif %} value="True" name="published" />
+                                Yes, Publish
+                            </label>
+                            <label class="labelRadio" for="published">
+                                <input id="published_false" class="inputRadio" type="radio" {% if entry.published %}{% else %}checked="checked"{% endif %} value="False" name="published"/>
+                                Save in Draft
+                            </label>
+                        </fieldset>
+                    </div>
                     <div class="optional">
                         <label for="tags">tags:</label>
                         <input type="text" size="100" id="tags" name="tags"  value="{{ entry.tagswcommas }}">
