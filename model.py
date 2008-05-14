@@ -95,18 +95,8 @@ class Entry(db.Model):
             archive[0].put()
         
     
-    def save(self):
-        """
-        Use this instead of self.put(), as we do some other work here
-        """
-        #TODO for each tag ensure it has a tag
-        
-        # update # entry count if new
-        if not self.is_saved():
-            self.blog.entrycount += 1
-            self.blog.save()
-            
-            self.update_archive()
+    def update_tags(self):
+        """Update Tag cloud info"""
         #b = self.blog
         #print b.tags
         #for tag in self.tagsnew:
@@ -114,6 +104,20 @@ class Entry(db.Model):
         #        b.tags.update({tag:1})
         #    else:
         #        b.tags.update({tag:b.tags[tag]+1})
+        pass
+    
+    def save(self):
+        """
+        Use this instead of self.put(), as we do some other work here
+        """
+        #TODO for each tag ensure it has a tag
+        self.update_tags()
+        
+        # create archives, entrycount
+        if not self.is_saved():
+            self.blog.entrycount += 1
+            self.blog.save()
+            self.update_archive()
         self.put()
     
 

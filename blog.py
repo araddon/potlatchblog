@@ -231,9 +231,11 @@ class AdminMigrate(BaseController):
             for a in archives:
                 a.delete()
             entries = Entry.all().filter('entrytype =','post')
+            self.blog.entrycount = 0 # reset to start migration
             for e in entries:
                 e.update_archive()
                 e.monthyear = e.date.strftime('%b-%Y')
+                self.blog.entrycount += 1
                 e.put()
                 print 'update to %s' % (e.monthyear)
             archive = Archive.all()
