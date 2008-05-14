@@ -7,7 +7,7 @@
     <div id="content">
         <div id="links_div">
         {% for link in links %}
-            <h2><a href="#" rel="bookmark" title="{{ link.linktext }}">{{ link.linktext }}  {{ link.linktype }}</a></h2>
+            <h2><a href="{{ link.href }}" rel="bookmark" title="{{ link.linktext }}">{{ link.linktext }}  {{ link.linktype }}</a></h2>
         {% endfor %}
         </div>
         <form  method="post" id="linkadminform">

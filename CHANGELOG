@@ -1,4 +1,5 @@
 
+5/13/08:  added blog version to admin ui
 5/13/08:  changed UI to not show "admin login" unless already admin, moved to top nav not side
 5/13/08:  Migrate Ability, implement archive migrate for v1.16
 5/13/08:  don't show "tags" on display pages if empty

@@ -45,7 +45,6 @@ class BaseController(webapp2.RequestHandler):
     def __init__(self):
         self.template = 'index.html'
         self.blog = Blog.all().fetch(1)
-        #self.app_version = WSGIApplication.active_instance
         if self.blog == []:
             pass
         else:
@@ -226,7 +225,13 @@ class AdminList(BaseController):
 class AdminMigrate(BaseController):
     @requires_admin
     def get(self,to_version='1.15'):
-        if to_version == '1.16':
+        if to_version == '999.99':
+            pass
+        elif to_version == '1.17'
+            links = Link.all()
+            for l in links:
+                l.delete()
+        elif to_version == '1.16':
             archives = Archive.all()
             for a in archives:
                 a.delete()
@@ -241,6 +246,7 @@ class AdminMigrate(BaseController):
             archive = Archive.all()
             self.blog.blogversion = to_version
             self.blog.put()
+        
     
 
 
@@ -261,7 +267,7 @@ class AdminLinks(BaseController):
             link = db.get(db.Key(key))
         
         link.linktext = self.request.get('linktext')
-        link.href = self.request.get('title')
+        link.href = self.request.get('href')
         link.put()
         self.response.out.write('link %s added' % link.linktype)
     
