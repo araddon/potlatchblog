@@ -24,6 +24,7 @@ class Blog(db.Model):
     archivehtml = db.TextProperty(default='')
     tags = db.TextProperty(default='{}')
     analyticsjs = db.StringProperty(multiline=True,default='')
+    commentjs = db.StringProperty(multiline=True,default='')
     
     def save(self):
         self.put()

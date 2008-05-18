@@ -175,6 +175,7 @@ class AdminConfig(BaseController):
         blog.area2 = self.request.get('area2')
         blog.area3 = self.request.get('area3')
         blog.analyticsjs = self.request.get('analyticsjs')
+        blog.commentjs = self.request.get('commentjs')
         blog.save()
         self.redirect('/admin/entry/list/post')
     
