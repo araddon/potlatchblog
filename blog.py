@@ -20,11 +20,7 @@ def requires_admin(method):
             return
             raise self.error(403)
         elif not users.is_current_user_admin():
-            #self.response.clear()
-            #self.response.set_status(403).
-            self.error(403)
-            template_vals = {'entries': None,'message':'This User does not have priveleges to the Admin Section'}
-            self.render('views/error.html',template_vals) 
+            return self.error(403)
         else:
             return method(self, *args, **kwargs)
     return wrapper
@@ -59,6 +55,15 @@ class BaseController(webapp2.RequestHandler):
     
     def __after__(self,*args):
         pass
+    
+    def error(self,errorcode,message='an error occured'):
+        if errorcode == 404:
+            message = 'Sorry, we were not able to find the requested page.  We have logged this error and will look into it.'
+        elif errorcode == 403:
+            message = 'Sorry, that page is reserved for administrators.  '
+        elif errorcode == 500:
+            message = "Sorry, the server encountered an error.  We have logged this error and will look into it."
+        return self.render('views/error.html',{'message':message})
     
     def render(self,template_file,template_vals):
         """
@@ -105,7 +110,9 @@ class MainPage(BasePublicPage):
             entries = Entry.all().filter('entrytype =','post').\
                 filter("published =", True).order('-date').fetch(10)
         else:
-            entries = Entry.all().filter('slug', slug).filter("published =", True)
+            entries = Entry.all().filter('slug', slug).filter("published =", True).fetch(1)
+            if not entries or len(entries) == 0:
+                return self.error(404)
         
         self.render('views/index.html',{'entries':entries})
     
@@ -227,7 +234,7 @@ class AdminMigrate(BaseController):
     def get(self,to_version='1.15'):
         if to_version == '999.99':
             pass
-        elif to_version == '1.17'
+        elif to_version == '1.17':
             links = Link.all()
             for l in links:
                 l.delete()

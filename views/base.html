@@ -5,6 +5,7 @@
     <meta name="generator" content="PotlatchBlog" />
     <link rel="stylesheet" href="/static/{{ blog.theme }}" type="text/css" media="screen" />
     <link rel="alternate" type="application/atom+xml" title="{{ blog.title }}" href="/atom" />
+    <script type="text/javascript" src="/static/jquery-1.2.3.min.js"></script> 
     <link rel="pingback" href="/pingback" />
     {% block head_javascript %}{% endblock %}
 </head>
@@ -78,7 +79,7 @@
         <h3>Archives</h3>
         <ul>
             {% for a in archives %}
-            <li><a href="/archive/{{ a.monthyear }}">{{ a.monthyear }}</a></li>
+            <li><a href="/archive/{{ a.monthyear }}">{{ a.monthyear }} ({{ a.entrycount }})</a></li>
             {% endfor %}
         </ul>
         

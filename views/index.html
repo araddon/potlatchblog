@@ -52,7 +52,7 @@
                 <!--<li><a href="#comments" title="Read what people are saying">Read the comments</a></li>-->
                 </ul>
             </div>
-        
+            
             <!-- Post Starts -->
             <div class="post" class="post-9">
                 {{ entry.content }}
@@ -76,6 +76,23 @@
             </div>
         <!-- Post Ends -->
     {% endfor %}
+    {% if current_userisadmin %}
+    
+    <script type="text/javascript">
+    //var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    //document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+    //var pageTracker = _gat._getTracker("UA-xxxxxx-x");
+    //pageTracker._initData();
+    //pageTracker._trackPageview();
+    </script>
+    <div id="demisauce-comments"></div>
+    
+    
+    <script src="http://localhost:4950/comment/js/8ab80ecd0944981fe61694481a1bea014b053a0a" type="text/javascript" ></script>
+    
+    {% endif %}
     </div>
     <!-- Content Ends -->
 {% endblock %}
