@@ -76,40 +76,16 @@
             </div>
         <!-- Post Ends -->
     {% endfor %}
-    {% if current_userisadmin %}
-    
-    <div id="demisauce-comments"></div>
-    
-    {{ blog.commentjs }}
-    <script type="text/javascript" src="http://localhost:4950/comment/js?site_key="></script>
-    <script type="text/javascript">
-    $(document).ready(function(){
-        //src="http://localhost:4950/comment/js?site_key="
-        /*
-        var ds_original_link = window.location.href;
-        var ds_script = document.createElement('script');
-        ds_script.type = 'text/javascript';
-        
-        // allow js var from users page to be passed in to override element id of where to plop this stuff
-        if(typeof(demisauce_commentid) == 'undefined') {
-            demisauce_commentid = 'demisauce-comments';
-        }
-        
-        qs = 'url=' + encodeURIComponent(ds_original_link)
-        qs += '&site_key=8ab80ecd0944981fe61694481a1bea014b053a0a'
-        ds_script.src = 'http://localhost:4950/comment/js?' + qs
-        
-        var demisauce_script_div = document.createElement('div');
-        // now load the scripts
-        document.getElementById('demisauce-comments').parentNode.appendChild(demisauce_script_div);
-        //alert(ds_script.src)
-        demisauce_script_div.appendChild(ds_script);
-        */
-    });
 
         
-    </script>
-    {% endif %}
+        {% if slug %}
+            
+            <div id="demisauce-comments"></div>
+            
+            {{ blog.commentjs }}
+            
+        {% endif %}
+        
     </div>
     <!-- Content Ends -->
 {% endblock %}

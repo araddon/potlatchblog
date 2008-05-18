@@ -113,8 +113,9 @@ class MainPage(BasePublicPage):
             entries = Entry.all().filter('slug', slug).filter("published =", True).fetch(1)
             if not entries or len(entries) == 0:
                 return self.error(404)
+            
         
-        self.render('views/index.html',{'entries':entries})
+        self.render('views/index.html',{'entries':entries,'slug':slug})
     
 
 class PublicPage(BasePublicPage):
