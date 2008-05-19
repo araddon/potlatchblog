@@ -1,4 +1,7 @@
 
+5/18/08:  adding anchor tags to show comments for index page with more than one item to go to detail page
+5/18/08:  added preview capability to blog posts so you don't have to publish to preview
+5/18/08:  pushed large set of changes to include Demisauce comments in Potlatch Blog
 5/13/08:  added blog version to admin ui
 5/13/08:  changed UI to not show "admin login" unless already admin, moved to top nav not side
 5/13/08:  Migrate Ability, implement archive migrate for v1.16

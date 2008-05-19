@@ -70,7 +70,7 @@
                 {% if entry.commentcount %}
                     <a href="#comments" title="Comment on Demiauce Comment System">{{ entry.commentcount }} comments</a>
                 {% else %} 
-                
+                    <a href="/entry/{{ entry.slug }}#demisauce-comments" title="Comment on Demiauce Comment System">show comments</a>
                 {% endif %}
                 
             </div>
@@ -80,7 +80,7 @@
         
         {% if slug %}
             
-            <div id="demisauce-comments"></div>
+            <div id="demisauce-comments" name="demisauce-comments"></div>
             
             {{ blog.commentjs }}
             
