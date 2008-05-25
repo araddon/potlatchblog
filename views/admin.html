@@ -69,7 +69,7 @@
         {% endif %}
         {% for entry in entries %}
             <div><h2><a href="/admin/entry/{{ entry.entrytype }}/{{ entry.key }}" rel="bookmark" title="{{ entry.title }}">{{ entry.title }}</a> <a href="/entry/{{ entry.slug }}" style="color:red;">Preview</a> </h2>
-                <a href="/admin/entry/{{ entry.key }}" class="entrydelete" >delete</a>
+                <a href="/admin/entry/{{ entry.key }}" class="entrydelete" ></a>
             </div>
         {% endfor %}
     </div>
