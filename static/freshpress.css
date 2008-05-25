@@ -178,8 +178,8 @@ div.formbox {border:1px solid #8db2e3;margin-top:20px;}
 
 /* Footer Starts */
 
-#footer {background: #464646;padding: 0px;margin: 0px;}
-.footerinner {width: 972px;margin:auto;padding: 15px 0px 45px;}
+#footer {background: #464646;padding: 0px;margin: 0px 0px 0px 0px;padding: 0px 0px 45px 0px;}
+.footerinner {width: 972px;margin:auto;padding: 15px 0px 15px 0px;}
 .footerc {float: left;border: 1px solid #333;margin: 0px 22px 15px 0px;padding: 2px;width: 303px;color: #dadada;}
 .footercalt {float: left;border: 1px solid #333;margin: 0px 0px 15px 0px;padding: 2px;width: 303px;color: #dadada;}
 .footerc h3, .footercalt h3 {font: normal 1.1em Georgia, "Times New Roman", Times, serif;color: #ccc;margin: 0px;padding:5px;background: #333;letter-spacing: 1px;}
