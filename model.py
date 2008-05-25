@@ -59,7 +59,7 @@ class Archive(db.Model):
     blog = db.ReferenceProperty(Blog)
     monthyear = db.StringProperty(multiline=False)
     """March-08"""
-    entrycount = db.IntegerProperty(default=1)
+    entrycount = db.IntegerProperty(default=0)
     date = db.DateTimeProperty(auto_now_add=True)
 
 class Tag(db.Model):
@@ -98,19 +98,20 @@ class Entry(BaseModel):
                 else: 
                     archive = archive[0]
                 archive.entrycount += 1
+                archive.put()
                 self.blog.entrycount += 1
             else:
                 # remove from archive
                 if archive and archive[0]:
                     archive = archive[0]
                     archive.entrycount -= 1
+                    if archive.entrycount == 0:
+                        archive.delete()
+                    else:
+                        archive.put()
                 self.blog.entrycount -= 1
             
             self.blog.save()
-            if archive and archive.entrycount == 0:
-                archive.delete()
-            elif archive:
-                archive.put()
     
     def get_tags(self):
         '''comma delimted list of tags'''

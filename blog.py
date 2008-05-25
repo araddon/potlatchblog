@@ -241,11 +241,12 @@ class AdminMigrate(BaseController):
             for a in archives:
                 a.delete()
             entries = Entry.all().filter('entrytype =','post').filter('published',True)
-            self.blog.entrycount = 0 # reset to start migration
             for e in entries:
-                self.blog.entrycount += 1
                 e.published = False
                 e.save()
+            self.blog.entrycount = 0 # reset to start migration
+            self.blog.put()
+            for e in entries:
                 e.published = True
                 e.save()
                 print 'update to %s' % (e.monthyear)
