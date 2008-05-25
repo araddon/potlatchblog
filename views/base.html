@@ -63,36 +63,9 @@
     
     
     {% block rightsidebar %}
-    <!-- Right Sidebar Starts -->
-    <div id="rightsidebar">
-        <h3>Recent Posts</h3>
-        <ul>
-            {% for entry in recententries %}
-            <li><a href="/entry/{{ entry.slug }}">{{ entry.title }}</a></li>
-            {% endfor %}
-        </ul>
-        <!--
-        <h3>Tag Cloud</h3>
-        <ul>
-            tags
-        </ul> -->
-        <h3>Archives</h3>
-        <ul>
-            {% for a in archives %}
-            <li><a href="/archive/{{ a.monthyear }}">{{ a.monthyear }} ({{ a.entrycount }})</a></li>
-            {% endfor %}
-        </ul>
-        
-        <h3>Blogs I Read</h3>
-        <ul>
-            {% for link in links %}
-            <li><a href="{{ link.href }}">{{ link.linktext }}</a></li>
-            {% endfor %}
-        </ul>
-
-
-    </div>
-    <!-- Right Sidebar Ends -->
+        <!-- Right Sidebar Starts -->
+        {{ blog.sidebar }}
+        <!-- Right Sidebar Ends -->
     {% endblock %}
 
 <div class="clear"></div>

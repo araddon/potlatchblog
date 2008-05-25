@@ -5,9 +5,7 @@
 {% block topmenu %}
 <ul>
     <li class="page_item page-item-2"><a href="/" title="Home">Home</a></li>
-    {% for page in pages %}
-    <li class="page_item page-item-2"><a href="/page/{{ page.slug }}" title="{{ page.title }}">{{ page.title }}</a></li>
-    {% endfor %}
+    {{ blog.topmenu }}
     {% if current_userisadmin %}
     <li class="page_item page-item-2"  style="float:right;"><a href="/admin/entry/list/post">Admin</a></li>
     {% endif %}

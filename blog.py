@@ -11,6 +11,24 @@ from google.appengine.ext import db
 
 from model import *
 
+def rebuild_cache(blog):
+    """
+    Pre-Render's and cache's html in blog object.  Everything
+    in here doesn't change very often, so we can update it at point of change
+    """
+    pages = Entry.all().filter("entrytype =", "page").filter("published =", True).fetch(20)
+    archives = Archive.all().order('-date').fetch(10)
+    recententries = Entry.all().filter('entrytype =','post').filter("published", True).order('-date').fetch(10)
+    links = Link.all().filter('linktype =','blogroll')
+    template_vals = {'recententries':recententries,'pages':pages,
+            'links':links,'archives':archives}
+            
+    path = os.path.join(os.path.dirname(__file__), 'views/sidebar.html')
+    blog.sidebar = template.render(path, template_vals)
+    path = os.path.join(os.path.dirname(__file__), 'views/topmenu.html')
+    blog.topmenu = template.render(path, template_vals) 
+    blog.save()
+
 def requires_admin(method):
     @wraps(method)
     def wrapper(self, *args, **kwargs):
@@ -94,12 +112,8 @@ class BasePublicPage(BaseController):
     Do all the common public page prep such as nav pages etc
     """
     def __before__(self,slug=None):
-        pages = Entry.all().filter("entrytype =", "page").filter("published =", True).fetch(20)
-        archives = Archive.all().order('-date').fetch(10)
-        recententries = Entry.all().filter('entrytype =','post').filter("published", True).order('-date').fetch(10)
-        links = Link.all().filter('linktype =','blogroll')
-        self.template_vals.update({'recententries':recententries,
-            'pages':pages,'links':links,'archives':archives})
+        #self.template_vals.update(public_page_gets())
+        pass
     
 
 class MainPage(BasePublicPage):
@@ -211,6 +225,7 @@ class AdminEntry(BaseController):
         entry.slug = self.request.get('real_permalink')
         entry.tagswcommas = self.request.get('tags')
         entry.save()
+        rebuild_cache(self.blog)
         self.redirect('/admin/entry/list/%s' % entry.entrytype )
     
     @requires_admin
@@ -221,7 +236,7 @@ class AdminEntry(BaseController):
         else:
             entry = db.get(db.Key(key))
             entry.delete()
-        
+        rebuild_cache(self.blog)
     
 
 class AdminList(BaseController):
@@ -294,6 +309,7 @@ class AdminLinks(BaseController):
         link.linktext = self.request.get('linktext')
         link.href = self.request.get('href')
         link.put()
+        rebuild_cache(self.blog)
         self.response.out.write('link %s added' % link.linktype)
     
 
