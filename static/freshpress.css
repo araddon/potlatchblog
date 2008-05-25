@@ -40,6 +40,8 @@ body {margin: 0px;padding: 0px;font: 0.9em Tahoma, Verdana, sans-serif;}
 #credits a:hover {color: #a3c800;text-decoration: none;}
 /* Link Hover Elements Ends */
 
+#hiddenmessage {text-align:center;margin: 0px 40px 0px 0px;display:none;color: #B6411A;font-size: 1.4em;}
+
 /* Other Theme Properties Starts */
 
 img.alignright {float: right;margin: 0px 0px 10px 10px;padding: 0px;border: 1px solid #ccc;}
