@@ -1,6 +1,24 @@
 from google.appengine.api import users
 from google.appengine.ext import db
+from google.appengine.ext.db import Model as DBModel
 from datetime import datetime
+
+
+class BaseModel(db.Model):
+    def __init__(self, parent=None, key_name=None, _app=None, **kwds):
+        self.__isdirty = False
+        DBModel.__init__(self, parent=None, key_name=None, _app=None, **kwds)
+    
+    def __setattr__(self,attrname,value):
+        if (attrname.find('_') != 0):
+            if hasattr(self,'_' + attrname):
+                curval = getattr(self,'_' + attrname)
+                if curval != value:
+                    self.__isdirty = True
+                    if hasattr(self,attrname + '_onchange'):
+                        getattr(self,attrname + '_onchange')(curval,value)
+        
+        DBModel.__setattr__(self,attrname,value)
 
 class Cache(db.Model):
     cachekey = db.StringProperty(multiline=False)
@@ -55,7 +73,7 @@ class Link(db.Model):
     linktype = db.StringProperty(multiline=False,default='blogroll')
     linktext = db.StringProperty(multiline=False,default='')
 
-class Entry(db.Model):
+class Entry(BaseModel):
     author = db.UserProperty()
     blog = db.ReferenceProperty(Blog)
     published = db.BooleanProperty(default=False)
@@ -68,6 +86,31 @@ class Entry(db.Model):
     entrytype = db.StringProperty(multiline=False,default='post',choices=[
         'post','page'])
     commentcount = db.IntegerProperty(default=0)
+    
+    def published_onchange(self,curval,newval):
+        if self.entrytype == 'post':
+            my = self.date.strftime('%b-%Y') # May-2008
+            archive = Archive.all().filter('monthyear',my).fetch(10)
+            if curval == False and newval == True:
+                # add to archive
+                if archive == []: # new month
+                    archive = Archive(blog=self.blog,monthyear=my)
+                else: 
+                    archive = archive[0]
+                archive.entrycount += 1
+                self.blog.entrycount += 1
+            else:
+                # remove from archive
+                if archive and archive[0]:
+                    archive = archive[0]
+                    archive.entrycount -= 1
+                self.blog.entrycount -= 1
+            
+            self.blog.save()
+            if archive and archive.entrycount == 0:
+                archive.delete()
+            elif archive:
+                archive.put()
     
     def get_tags(self):
         '''comma delimted list of tags'''
@@ -84,16 +127,17 @@ class Entry(db.Model):
     def update_archive(self):
         """Checks to see if there is a month-year entry for the
         month of current blog, if not creates it and increments count"""
-        my = datetime.now().strftime('%b-%Y') # May-2008
+        my = self.date.strftime('%b-%Y') # May-2008
         archive = Archive.all().filter('monthyear',my).fetch(10)
-        if archive == []:
-            archive = Archive(blog=self.blog,monthyear=my)
-            self.monthyear = my
-            archive.put()
-        else:
-            # ratchet up the count
-            archive[0].entrycount += 1
-            archive[0].put()
+        if self.entrytype == 'post':
+            if archive == []:
+                archive = Archive(blog=self.blog,monthyear=my)
+                self.monthyear = my
+                archive.put()
+            else:
+                # ratchet up the count
+                archive[0].entrycount += 1
+                archive[0].put()
         
     
     def update_tags(self):
@@ -113,12 +157,8 @@ class Entry(db.Model):
         """
         #TODO for each tag ensure it has a tag
         self.update_tags()
-        
-        # create archives, entrycount
-        if not self.is_saved():
-            self.blog.entrycount += 1
-            self.blog.save()
-            self.update_archive()
+        my = self.date.strftime('%b-%Y') # May-2008
+        self.monthyear = my
         self.put()
     
 

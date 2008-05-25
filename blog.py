@@ -96,7 +96,7 @@ class BasePublicPage(BaseController):
     def __before__(self,slug=None):
         pages = Entry.all().filter("entrytype =", "page").filter("published =", True).fetch(20)
         archives = Archive.all().order('-date').fetch(10)
-        recententries = Entry.all().filter('entrytype =','post').order('-date').fetch(10)
+        recententries = Entry.all().filter('entrytype =','post').filter("published", True).order('-date').fetch(10)
         links = Link.all().filter('linktype =','blogroll')
         self.template_vals.update({'recententries':recententries,
             'pages':pages,'links':links,'archives':archives})
@@ -236,6 +236,21 @@ class AdminMigrate(BaseController):
     def get(self,to_version='1.15'):
         if to_version == '999.99':
             pass
+        elif to_version == '1.18':
+            archives = Archive.all()
+            for a in archives:
+                a.delete()
+            entries = Entry.all().filter('entrytype =','post').filter('published',True)
+            self.blog.entrycount = 0 # reset to start migration
+            for e in entries:
+                self.blog.entrycount += 1
+                e.published = False
+                e.save()
+                e.published = True
+                e.save()
+                print 'update to %s' % (e.monthyear)
+            self.blog.blogversion = to_version
+            self.blog.put()
         elif to_version == '1.17':
             links = Link.all()
             for l in links:
@@ -284,6 +299,7 @@ class AdminLinks(BaseController):
 def main():
     application = webapp2.WSGIApplication2(
                     [('/', MainPage),
+                     ('/admin', AdminList),('/admin/', AdminList),
                      ('/admin/entry/list/(.*)', AdminList),
                      ('/admin/entry/(.*)/(.*)', AdminEntry),
                      ('/admin/entry/(.*)', AdminEntry),
