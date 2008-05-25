@@ -110,12 +110,12 @@ img.alignleft {float: left;margin: 0px 10px 10px 0px;padding: 0px;border: 1px so
 #content .meta {padding: 10px 10px 20px;font-size: 0.8em;font-weight: normal;}
 #content .meta ul {list-style: none;margin: 0px;padding: 5px 0px;}
 #content .meta ul li {float: left;padding: 0px 5px 0px 0px;display: block;}
-#content .post {margin: 10px 10px 0px;padding: 0px;}
+#content .post {margin: 10px 10px 0px;padding: 0px;font-size: 1.0em;color: #333;}
 #content .post h2 {margin: 0px 0px 20px;padding: 0px;background: none;border-bottom: 2px solid #E4F2FD;border-top: none;font: normal 1.5em Georgia, "Times New Roman", Times, serif;color: #2583ad;}
 #content .post h3 {margin: 0px 0px 20px;padding: 0px;border-bottom: 1px solid #e5e5e5;font: normal 1.4em Georgia, "Times New Roman", Times, serif;color: #333;}
-#content .post p {padding: 0px 0px 20px;line-height: 20px;font-size: 0.9em;color: #333;margin: 0px;}
+#content .post p {padding: 0px 0px 20px;line-height: 20px;margin: 0px;}
 #content .post ul, #content .post ol {margin: 0px 35px 20px 35px;padding: 0px;}
-#content .post ul li, #content .post ol li {margin: 0px;padding: 3px 0px 6px;font-size: 1em;}
+#content .post ul li, #content .post ol li {margin: 0px;padding: 3px 0px 6px;}
 #content .post blockquote {border-bottom: 2px solid #E5E5E5;border-right: 1px solid #E5E5E5;margin: 0px 20px 20px;padding: 5px 10px 0px;background: #f2f2f2 url(images/quote.gif) no-repeat left top;text-indent: 30px;}
 #content .post blockquote p {margin: 0px;padding: 5px 5px 10px;font-size: 1.1em;line-height: 24px;}
 #content .quoteleft {width: 200px;float: left;padding: 5px 10px;background: #f2f2f2 url(images/quote.gif) no-repeat left top;text-indent: 30px;color: #000;margin: 10px 10px 0px 0px;}
