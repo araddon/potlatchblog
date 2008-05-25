@@ -10,6 +10,11 @@ class BaseModel(db.Model):
         DBModel.__init__(self, parent=None, key_name=None, _app=None, **kwds)
     
     def __setattr__(self,attrname,value):
+        """
+        DataStore api stores all prop values say "email" is stored in "_email" so
+        we intercept the set attribute, see if it has changed, then check for an
+        onchanged method for that property to call
+        """
         if (attrname.find('_') != 0):
             if hasattr(self,'_' + attrname):
                 curval = getattr(self,'_' + attrname)
