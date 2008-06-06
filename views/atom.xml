@@ -1,14 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <title>{{ blog.title }} </title>
-    <id>{{ blog.baseurl }}/feed</id>
-    <link href="{{ blog.title }}/feed" rel="self" />
+    <title><![CDATA[{{ blog.title }}]]></title>
+    <id>{{ blog.baseurl }}/</id>
+    <subtitle>{{ blog.subtitle }}</subtitle>
+    <link href="{{ blog.baseurl }}" />
+    <link href="{{ blog.baseurl }}/atom" rel="self" />
+    <updated>{{last_updated}}</updated>
+    <author>
+      <name>{{ blog.owner.nickname }}</name>
+    </author>
 {% for entry in entries %}
   <entry>
+      <link href="{{ blog.baseurl }}/entry/{{entry.slug}}"/>
       <id>{{ blog.baseurl }}/entry/{{entry.slug}}</id>
-      <title>{{entry.title}}</title>
-      <content type="html">{{entry.content}}</content>
-      <author><name>{{entry.author}}</name></author>
-      <updated>{{entry.date}}</updated>
+      <title><![CDATA[{{entry.title}}]]></title>
+      <content type="html"><![CDATA[{{entry.content}}]]></content>
+      <author>
+          <name>{{entry.author}}</name>
+      </author>
+      <updated>{{entry.formatted_date}}</updated>
   </entry>
 {% endfor %}
 </feed>

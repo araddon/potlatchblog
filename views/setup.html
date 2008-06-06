@@ -8,7 +8,7 @@
     <!-- Admin Full Width -->
     <div id="featured">
         <form method="post">
-            <input type="hidden" id="object_key" name="object_key" value="{{ blogedit.key }}">
+            <input type="hidden" id="object_key" name="object_key" value="{{ blog.key }}">
             <br />
             <fieldset style="">
                 <legend>Setup and Configuraiton for this Blog</legend>
@@ -16,60 +16,64 @@
                 <!--<div class="instructions"><b>This</b> is instructions on how to accomplish </div>-->
                 <div class="required">
                     <label for="subject">Blog Title:</label>
-                    <input type="text" id="title" name="title" value="{{ blogedit.title }}">
+                    <input type="text" id="title" name="title" value="{{ blog.title }}">
                 </div>
                 <div class="required">
                     <label for="from">Sub Title:</label>
-                    <input type="text" size="100" id="subtitle" name="subtitle"  value="{{ blogedit.subtitle }}">
+                    <input type="text" size="100" id="subtitle" name="subtitle"  value="{{ blog.subtitle }}">
                 </div>
                 <div class="required">
                     <label for="from">Base URL:</label>
-                    <input type="text" size="100" id="baseurl" name="baseurl"  value="{{ blogedit.baseurl }}">
+                    <input type="text" size="100" id="baseurl" name="baseurl"  value="{{ blog.baseurl }}">
+                </div>
+                <div class="required">
+                    <label for="from">Feed URL:</label>
+                    <input type="text" size="100" id="feedurl" name="feedurl"  value="{{ blog.feedurl }}">
                 </div>
                 <div class="optional">
                     <label for="template">Description:</label>
-                    <textarea name="description" rows="4" cols="60" class="wide">{{ blogedit.description }}</textarea>
+                    <textarea name="description" rows="4" cols="60" class="wide">{{ blog.description }}</textarea>
                 </div>
                 <div class="optional" style="">
                     <fieldset>
                         <legend>Choose Theme Layout</legend>
                         <label class="labelRadio" for="layout">
-                            <input id="layout_3cola" class="inputRadio" type="radio" {% ifequal blogedit.layout '3cola' %}checked="checked"{% endifequal %} value="3cola" name="layout"/>
+                            <input id="layout_3cola" class="inputRadio" type="radio" {% ifequal blog.layout '3cola' %}checked="checked"{% endifequal %} value="3cola" name="layout"/>
                             3 column, narrow on left and right, wide in center
                         </label>
                         <label class="labelRadio" for="layout">
-                            <input id="layout_3colb" class="inputRadio" type="radio" {% ifequal blogedit.layout '3colb' %}checked="checked"{% endifequal %} value="3colb" name="layout"/>
+                            <input id="layout_3colb" class="inputRadio" type="radio" {% ifequal blog.layout '3colb' %}checked="checked"{% endifequal %} value="3colb" name="layout"/>
                             3 columns, 2 narrow cols on right
                         </label>
                         <label class="labelRadio" for="layout">
-                            <input id="layout_2cola" class="inputRadio" type="radio" {% ifequal blogedit.layout '2cola' %}checked="checked"{% endifequal %} value="2cola" name="layout"/>
+                            <input id="layout_2cola" class="inputRadio" type="radio" {% ifequal blog.layout '2cola' %}checked="checked"{% endifequal %} value="2cola" name="layout"/>
                             2 columns, narrow on right
                         </label>
                         <label class="labelRadio" for="layout">
-                            <input id="layout_2colb" class="inputRadio" type="radio" {% ifequal blogedit.layout '2colb' %}checked="checked"{% endifequal %} value="2colb" name="layout"/>
+                            <input id="layout_2colb" class="inputRadio" type="radio" {% ifequal blog.layout '2colb' %}checked="checked"{% endifequal %} value="2colb" name="layout"/>
                             2 columns, narrow on left
                         </label>
                     </fieldset>
                 </div>
                 <div class="optional">
                     <label for="area1">Footer1:</label>
-                    <textarea name="area1" rows="4" cols="60" class="wide">{{ blogedit.area1 }}</textarea>
+                    <textarea name="area1" rows="4" cols="60" class="wide">{{ blog.area1 }}</textarea>
                 </div>
                 <div class="optional">
                     <label for="area2">Footer2:</label>
-                    <textarea name="area2" rows="4" cols="60" class="wide">{{ blogedit.area2 }}</textarea>
+                    <textarea name="area2" rows="4" cols="60" class="wide">{{ blog.area2 }}</textarea>
                 </div>
                 <div class="optional">
                     <label for="area3">Footer3:</label>
-                    <textarea name="area3" rows="4" cols="60" class="wide">{{ blogedit.area3 }}</textarea>
+                    <textarea name="area3" rows="4" cols="60" class="wide">{{ blog.area3 }}</textarea>
                 </div>
                 <div class="optional">
                     <label for="analyticsjs">Analytics Javascript:</label>
-                    <textarea name="analyticsjs" rows="4" cols="60" class="wide">{{ blogedit.analyticsjs }}</textarea>
+                    <textarea name="analyticsjs" rows="4" cols="60" class="wide">{{ blog.analyticsjs }}</textarea>
                 </div>
                 <div class="optional">
                     <label for="analyticsjs">Comment Javascript:</label>
-                    <textarea name="commentjs" rows="4" cols="60" class="wide">{{ blogedit.commentjs }}</textarea>
+                    <textarea name="commentjs" rows="4" cols="60" class="wide">{{ blog.commentjs }}</textarea>
                 </div>
             </fieldset>
             <div class="actions">
@@ -81,32 +85,5 @@
     </div>
     <!-- Featured Ends -->
     
-    <!-- Content Starts -->
-    <div id="content">
-        <!-- Post Starts -->
-        <div class="date">Posted: {{ entry.date|date:"F jS, Y " }}</div>
-        <h2><a href="/entry/{{ entry.slug }}" rel="bookmark" title="{{ entry.title }}">{{ entry.title }}</a> </h2>
-            <div class="meta">
-                <ul>
-                <li>Written by <a href="#" title="Posts by #">{{ entry.author.nickname }}</a></li>
-                <li><a href="#comments" title="Read what people are saying">Read the comments</a></li>
-                </ul>
-            </div>
-        
-            <!-- Post Starts -->
-            <div class="post" class="post-9">
-                {{ entry.content|escape }}
-            </div>
-            <div class="meta">
-                tags: 
-                {% for tag in entry.tags %}
-                    <a href="/entry/tags/{{ tag }}" title="View all posts in #" rel="category tag">{{ tag }}</a>, 
-                {% endfor %}
-                
-            </div>
-            <div class="commentmeta">
-                <a href="#comments" title="Comment on Demiauce Comment System">3 people commented already</a>
-            </div>
-    </div>
-    <!-- Content Ends -->
+
 {% endblock %}

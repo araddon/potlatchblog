@@ -10,16 +10,30 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+# Used once in query history.
+- kind: Archive
+  properties:
+  - name: date
+    direction: desc
+
 # Unused in query history -- copied from input.
 - kind: Entry
   properties:
   - name: date
     direction: desc
 
-# Used 49 times in query history.
+# Used 40 times in query history.
 - kind: Entry
   properties:
   - name: entrytype
+  - name: date
+    direction: desc
+
+# Used 7 times in query history.
+- kind: Entry
+  properties:
+  - name: entrytype
+  - name: published
   - name: date
     direction: desc
 

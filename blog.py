@@ -98,13 +98,13 @@ class BaseController(webapp2.RequestHandler):
             url = users.create_login_url(self.request.uri)
             url_linktext = 'Login'
         
-        template_vals.update({'url':url,
+        self.template_vals.update({'url':url,
                          'url_linktext':url_linktext,
                          'blog':self.blog
                          })
-        template_vals.update(self.template_vals)
+        self.template_vals.update(template_vals)
         path = os.path.join(os.path.dirname(__file__), template_file)
-        self.response.out.write(template.render(path, template_vals))
+        self.response.out.write(template.render(path, self.template_vals))
     
 
 class BasePublicPage(BaseController):
@@ -154,8 +154,13 @@ class TagPage(BasePublicPage):
 class FeedHandler(BaseController):
     def get(self,tags=None):
         entries = Entry.all().filter('entrytype =','post').order('-date').fetch(10)
+        if entries and entries[0]:
+            last_updated = entries[0].date
+            last_updated = last_updated.strftime("%Y-%m-%dT%H:%M:%SZ") 
+        for e in entries:
+            e.formatted_date = e.date.strftime("%Y-%m-%dT%H:%M:%SZ") 
         self.response.headers['Content-Type'] = 'application/atom+xml'
-        self.render('views/atom.xml',{'entries':entries})
+        self.render('views/atom.xml',{'entries':entries,'last_updated':last_updated})
     
 
 class AdminConfig(BaseController):
@@ -169,7 +174,7 @@ class AdminConfig(BaseController):
             blogedit = Blog()
             blogedit.save()
             blogedit.initialsetup()
-        self.render('views/setup.html',{'blogedit':blogedit,'blogclass':Blog})
+        self.render('views/setup.html',{'blog':blogedit,'blogclass':Blog})
     
     @requires_admin
     def post(self):
@@ -186,6 +191,7 @@ class AdminConfig(BaseController):
         blog.subtitle = self.request.get('subtitle')
         blog.layout = self.request.get('layout')
         blog.baseurl = self.request.get('baseurl')
+        blog.feedurl = self.request.get('feedurl')
         blog.area1 = self.request.get('area1')
         blog.area2 = self.request.get('area2')
         blog.area3 = self.request.get('area3')

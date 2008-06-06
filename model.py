@@ -37,6 +37,7 @@ class Blog(db.Model):
     title = db.StringProperty(multiline=False)
     subtitle = db.StringProperty(multiline=False)
     entrycount = db.IntegerProperty(default=0)
+    feedurl = db.StringProperty(multiline=False,default='http://feeds.feedburner.com/yoursitesname')
     blogversion = db.StringProperty(multiline=False,default='1.15')
     layout = db.StringProperty(multiline=False,default='2cola',choices=[
         '3cola', '3colb', '2cola','2colb'])
