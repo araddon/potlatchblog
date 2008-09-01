@@ -3,12 +3,11 @@
 {% block head_javascript %}
 {% endblock %}
 {% block topmenu %}
-<ul>
+
     <li class="page_item page-item-2"><a href="/" title="Home">Home</a></li>
     {{ blog.topmenu }}
     {% if current_userisadmin %}
     <li class="page_item page-item-2"  style="float:right;"><a href="/admin/entry/list/post">Admin</a></li>
     {% endif %}
-    <div class="clear"></div>
-</ul>
+    
 {% endblock %}

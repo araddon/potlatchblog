@@ -11,7 +11,7 @@ from demisaucepy import cfg
 
 
 
-cfg.CFG['demisauce.apikey'] = '173726158347a26b3836d1c6c09e6c646461517a'
+cfg.CFG['demisauce.apikey'] = 'a95c21ee8e64cb5ff585b5f9b761b39d7cb9a202'
 cfg.CFG['demisauce.url'] = 'http://localhost:4951'
 cfg.CFG['demisauce.appname'] = 'djangodemo'
 
@@ -55,7 +55,7 @@ class Blog(db.Model):
     blogversion = db.StringProperty(multiline=False,default='1.15')
     layout = db.StringProperty(multiline=False,default='2cola',choices=[
         '3cola', '3colb', '2cola','2colb'])
-    theme = db.StringProperty(multiline=False,default='freshpress.css')
+    theme = db.StringProperty(multiline=False,default='potlatch.css')
     area1 = db.TextProperty(default='')
     area2 = db.TextProperty(default='')
     area3 = db.TextProperty(default='')
@@ -193,5 +193,4 @@ class Entry(BaseModel):
             ).filter("published =", True).order('-date')
     
 make_declarative(Entry.__dict__)
-for attr in Entry.__dict__.keys():
-    print 'attr %s, %s' % (attr,Entry.__dict__[attr])
+

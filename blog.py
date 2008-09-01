@@ -1,4 +1,4 @@
-import cgi, os
+import cgi, os, logging
 from functools import wraps
 import wsgiref.handlers
 
@@ -11,6 +11,8 @@ from google.appengine.ext import db
 
 from model import *
 from demisaucepy import cache, cfg
+
+log = logging.getLogger(__name__)
 
 def rebuild_cache(blog):
     """
@@ -128,21 +130,18 @@ class MainPage(BasePublicPage):
     #@printinfo
     def get(self,slug=None):
         entries = []
+        showcomments = False
         if slug == None:
             entries = Entry.allpublished().fetch(10)
         else:
             entries = Entry.all().filter('slug', slug).fetch(1)
+            showcomments = True
             if not entries or len(entries) == 0:
                 return self.error(404)
             
         
-        self.render('views/index.html',{'entries':entries,'slug':slug})
+        self.render('views/index.html',{'entries':entries,'slug':slug,'showcomments':showcomments})
     
-    def xget(self,slug=None):
-        for name in os.environ.keys():
-              self.response.out.write("%s = %s<br />\n" % (name, os.environ[name]))
-        print 'aaron is here'
-        #ln -s ~/Dropbox/demisauce/demisaucepy/trunk/demisaucepy demisaucepy
 
 class PublicPage(BasePublicPage):
     def get(self,slug=None):
@@ -152,14 +151,23 @@ class PublicPage(BasePublicPage):
 
 class ArchivePage(BasePublicPage):
     def get(self,monthyear=None):
+        showcomments = False
         entries = Entry.allpublished().filter('monthyear', monthyear)
-        self.render('views/index.html',{'entries':entries})
+        if entries and entries.count(1000) == 1:
+            showcomments = True
+        
+        self.render('views/index.html',{'entries':entries,'showcomments':showcomments})
     
 
 class TagPage(BasePublicPage):
     def get(self,tags=None):
+        showcomments = False
         entries = Entry.allpublished().filter("tags =", tags)
-        self.render('views/index.html',{'entries':entries})
+        log.info('count = %s' % entries.count(1000))
+        if entries and entries.count(10000) == 1:
+            showcomments = True
+            log.info('yup, should be showing comments')
+        self.render('views/index.html',{'entries':entries,'showcomments':showcomments})
     
 
 class FeedHandler(BaseController):
@@ -346,6 +354,9 @@ def main():
                      (r'/entry/(.*)', MainPage),
                      ],debug=True)
     wsgiref.handlers.CGIHandler().run(application)
+
+template.register_template_library('demisaucepy.demidj.templatetags.demisaucetags')
+
 
 if __name__ == "__main__":
     main()

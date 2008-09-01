@@ -10,7 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used once in query history.
+# Used 4 times in query history.
 - kind: Archive
   properties:
   - name: date
@@ -22,14 +22,14 @@ indexes:
   - name: date
     direction: desc
 
-# Used 4 times in query history.
+# Used 13 times in query history.
 - kind: Entry
   properties:
   - name: entrytype
   - name: date
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 6 times in query history.
 - kind: Entry
   properties:
   - name: entrytype
@@ -38,7 +38,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 8 times in query history.
+# Used 57 times in query history.
 - kind: Entry
   properties:
   - name: entrytype
@@ -46,7 +46,7 @@ indexes:
   - name: date
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 24 times in query history.
 - kind: Entry
   properties:
   - name: entrytype

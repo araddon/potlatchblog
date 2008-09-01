@@ -4,6 +4,7 @@
     <title>{% block title %} {{ blog.title }}{% endblock %}</title>
     <meta name="generator" content="PotlatchBlog" />
     <link rel="stylesheet" href="/static/{{ blog.theme }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/static/potlatch.css" type="text/css" media="screen" />
     <link rel="alternate" type="application/atom+xml" title="{{ blog.title }}" href="{{ blog.feedurl }}" />
     <script type="text/javascript" src="/static/jquery-1.2.6.min.js"></script> 
     
@@ -12,67 +13,55 @@
     {% block head_javascript %}{% endblock %}
 </head>
 <body>
+<div id="page-wrapper">
+    <div id="header">
+        <ul class="nav2">
+            {% block topmenu %}
 
-<!-- Dashboard Starts -->
-<div id="dashboard">
-    <div class="dash">
-        <form method="get" id="searchtop" action="http://www.google.com/search">
-            <input type="text" name="q" id="q" size="28" value="to search, type and hit enter" onblur="if (this.value == '') {this.value = 'to search, type and hit enter';}"  onfocus="if (this.value == 'to search, type and hit enter') {this.value = '';}" />
-            <input name="domains" type="hidden" value="{{ blog.baseurl }}"/>
-            <input name="sitesearch" type="hidden" value="{{ blog.baseurl }}"/>
-        </form>
-        <a href="{{ blog.feedurl }}" title="Subscribe to {{ blog.title }} RSS feed">Subscribe to my RSS feed <img src="/static/images/feed-icon-16x16.png" width="16" height="16" border="0" title="Subscribe to Blog's RSS feed" alt="RSS"/></a>
+            {% endblock %}
+            <li style="float:right;">  <a href="{{ blog.feedurl }}" title="Subscribe to {{ blog.title }} RSS feed" style="color:#F89939;">Subscribe<img src="/static/images/feed-icon-16x16.png" width="16" height="16" border="0" title="Subscribe to Blog's RSS feed" alt="RSS"/></a></li>
+            <li style="float:right;">
+                <div style="margin-top:15px;"><form method="get" id="searchtop"action="http://www.google.com/search">
+                  <input type="text" name="q" id="q" size="24" value="to search, type and hit enter" onblur="if (this.value == '') {this.value = 'to search, type and hit enter';}"  onfocus="if (this.value == 'to search, type and hit enter') {this.value = '';}" />
+                  <input name="domains" type="hidden" value="{{ blog.baseurl }}"/>
+                  <input name="sitesearch" type="hidden" value="{{ blog.baseurl }}"/>
+               </form></div>
+            </li>
+            <!--[if lte IE 7]>
+            <div class="clear"></div>
+            <![endif]-->
+        </ul>
         <div class="clear"></div>
     </div>
-</div>
-<!-- Dashboard Ends -->
-
-<!-- Header Starts -->
-<div id="header">
-    <div class="headings">
-      <h1><a href="/" >{{ blog.title }}</a></h1>
-      <h2>{{ blog.subtitle }}</h2>
-      <div class="clear"></div>
+    <!-- Container Starts -->
+    <div id="doc2"  class="yui-t6">
+        <div>
+            <!-- Full Width Start-->
+            {% block featured %}
+            {% endblock %}
+            <!-- Featured Ends -->
+        </div>
+        <div id="bd">
+            <div id="yui-main">
+                 <div class="yui-b">
+                    {% block content %}
+                    
+                    {% endblock %} 
+                </div>
+            </div>
+            {% block rightsidebar %}
+            <div id="rightsidebar" class="yui-b">  
+                <!-- Right Sidebar Starts -->
+                <h1><a href="/" >{{ blog.title }}</a></h1>
+                {{ blog.sidebar }}
+                {% dsview "poll" "what-should-the-new-features-be" %}
+                <!-- Right Sidebar Ends -->
+            </div>
+            {% endblock %}
+        </div>
     </div>
+    <!-- content Ends -->
 </div>
-<!-- Header Ends -->
-
-<!-- Nav Starts -->
-<div id="nav">
-    {% block topmenu %}
-
-    {% endblock %}
-    <!--[if lte IE 7]>
-    <div class="clear"></div>
-    <![endif]-->
-</div>
-<!-- Nav Ends -->
-
-<!-- Container Starts -->
-<div id="container">
-    <!-- Left Sidebar Starts 
-    <div id="leftsidebar">
-
-    </div>
-     LeftSidebar Ends -->
-    
-    <!-- Full Width Start-->
-    {% block featured %}
-    {% endblock %}
-    <!-- Featured Ends -->
-    
-    {% block content %}{% endblock %} 
-    
-    
-    {% block rightsidebar %}
-        <!-- Right Sidebar Starts -->
-        {{ blog.sidebar }}
-        <!-- Right Sidebar Ends -->
-    {% endblock %}
-
-<div class="clear"></div>
-</div>
-<!-- Container Ends -->
 
 <!-- Footer Starts -->
 <div id="footer">
@@ -86,17 +75,15 @@
         </div>
 
         <div class="footercalt">
+            {% dsview "feedback" "badge" %}
             {{ blog.area3 }}
+            
         </div>
 
         <div class="clear"></div>
     </div>
     <div class="footerinner">
         <div id="credits">
-            <!-- Credit link can be removed by giving a $5 donation, it'll help us all build good karma! -->
-            <img src="/static/images/freshlogo.gif" alt="FreshPress Themes" title="visit www.freshpressthemes.com" width="85" height="29" border="0" />
-            <span>Theme from: <a href="http://www.freshpressthemes.com" title="See more fresh themes" target="_blank">FreshPress Themes</a> {% now "Y" %}</span> 
-            <!-- Do Not Remove -->
         </div>
         <div  valign="bottom" align="center">
             <a href="http://code.google.com/appengine/" >
@@ -105,7 +92,7 @@
         </div>
     </div>
 </div>
-<!-- Footer Ends -->
+
 {{ blog.analyticsjs }}
 
 </body>

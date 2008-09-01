@@ -1,5 +1,6 @@
 
-8/27/08:  adding demisauce support for non js comments, etc.
+8/27/08:  adding demisauce support for non js comments, (remote service capability) and memcached support for remote services
+8/27/08:  fixing bug that showed un-published items in rss feed.
 5/18/08:  adding anchor tags to show comments for index page with more than one item to go to detail page
 5/18/08:  added preview capability to blog posts so you don't have to publish to preview
 5/18/08:  pushed large set of changes to include Demisauce comments in Potlatch Blog

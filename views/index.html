@@ -38,26 +38,19 @@
 
 
 {% block content %}
-<h1>{{ section.title }}</h1>
+    <h1>{{ section.title }}</h1>
     
     <!-- Content Starts -->
     <div id="content">
     {% for entry in entries %}
-        <!-- Post Starts -->
-        <div class="date">Posted: {{ entry.date|date:"F jS, Y " }}</div>
-        <h2><a href="/entry/{{ entry.slug }}" rel="bookmark" title="{{ entry.title }}">{{ entry.title }}</a> </h2>
-            <div class="meta">
-                <ul>
-                <li>Written by <a href="#" title="Posts by #">{{ entry.author.nickname }}</a></li>
-                <!--<li><a href="#comments" title="Read what people are saying">Read the comments</a></li>-->
-                </ul>
-            </div>
-            
             <!-- Post Starts -->
             <div class="post" class="post-9">
+                <h3><a href="/entry/{{ entry.slug }}" rel="bookmark" title="{{ entry.title }}">{{ entry.title }}</a> </h3>
                 {{ entry.content }}
             </div>
             <div class="meta">
+                <span class="post-author"><a href="#" title="Posts by #">{{ entry.author.nickname }}</a></span>
+                <span class="post-date">Posted: {{ entry.date|date:"F jS, Y " }}</span>
                 {% if entry.tags %}
                 tags: 
                 {% for tag in entry.tags %}
@@ -67,11 +60,8 @@
                 
             </div>
             <div class="commentmeta">
-                {{ entry.comments.views.summary }}
-                {% if entry.commentcount %}
-                    <a href="#comments" title="Comment on Demiauce Comment System">{{ entry.commentcount }} comments</a>
-                {% else %} 
-                    <a href="/entry/{{ entry.slug }}#demisauce-comments" title="Comment on Demiauce Comment System">show comments</a>
+                {% if showcomments %}
+                    {{ entry.comments.views.summary }}
                 {% endif %}
                 
             </div>
