@@ -7,8 +7,15 @@
     <link rel="stylesheet" href="/static/potlatch.css" type="text/css" media="screen" />
     <link rel="alternate" type="application/atom+xml" title="{{ blog.title }}" href="{{ blog.feedurl }}" />
     <script type="text/javascript" src="/static/jquery-1.2.6.min.js"></script> 
-    
-    
+    <script type="text/javascript" src="{% dsurl %}/js/ds.base.js"></script>
+    <script type="text/javascript" src="{% dsurl %}/js/facebox.js"></script>
+    <link rel="stylesheet" href="{% dsurl %}/css/ds.widgets.css" type="text/css" media="screen" />
+    <script type="text/javascript" >
+        jQuery(document).ready(function($) {
+            $.ds.defaults.site_slug = 'djangodemo';
+            $.ds.defaults.base_url = '{% dsurl %}';
+        })
+    </script>
     <link rel="pingback" href="/pingback" />
     {% block head_javascript %}{% endblock %}
 </head>
