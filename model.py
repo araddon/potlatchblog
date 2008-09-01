@@ -3,6 +3,17 @@ from google.appengine.ext import db
 from google.appengine.ext.db import Model as DBModel
 from datetime import datetime
 
+from demisaucepy.django_helper import AggregatorMeta
+from demisaucepy.declarative import has_a, has_many, \
+    aggregator_callable, make_declarative
+from demisaucepy import cfg
+
+
+
+
+cfg.CFG['demisauce.apikey'] = '173726158347a26b3836d1c6c09e6c646461517a'
+cfg.CFG['demisauce.url'] = 'http://localhost:4951'
+cfg.CFG['demisauce.appname'] = 'djangodemo'
 
 class BaseModel(db.Model):
     def __init__(self, parent=None, key_name=None, _app=None, **kwds):
@@ -24,6 +35,9 @@ class BaseModel(db.Model):
                         getattr(self,attrname + '_onchange')(curval,value)
         
         DBModel.__setattr__(self,attrname,value)
+    
+
+class GAEMeta(BaseModel,AggregatorMeta): pass
 
 class Cache(db.Model):
     cachekey = db.StringProperty(multiline=False)
@@ -82,6 +96,7 @@ class Link(db.Model):
     linktext = db.StringProperty(multiline=False,default='')
 
 class Entry(BaseModel):
+    #__metaclass__ = GAEMeta
     author = db.UserProperty()
     blog = db.ReferenceProperty(Blog)
     published = db.BooleanProperty(default=False)
@@ -94,6 +109,8 @@ class Entry(BaseModel):
     entrytype = db.StringProperty(multiline=False,default='post',choices=[
         'post','page'])
     commentcount = db.IntegerProperty(default=0)
+    comments = has_many(name='comment',lazy=True,local_key='slug' )
+    phphello = has_a(name='helloworld',app='phpdemo',lazy=True,local_key='slug' )
     
     def published_onchange(self,curval,newval):
         if self.entrytype == 'post':
@@ -170,4 +187,11 @@ class Entry(BaseModel):
         self.monthyear = my
         self.put()
     
-
+    @classmethod
+    def allpublished(cls,type='post'):
+        return Entry.all().filter('entrytype =',type
+            ).filter("published =", True).order('-date')
+    
+make_declarative(Entry.__dict__)
+for attr in Entry.__dict__.keys():
+    print 'attr %s, %s' % (attr,Entry.__dict__[attr])

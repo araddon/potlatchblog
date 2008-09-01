@@ -22,18 +22,36 @@ indexes:
   - name: date
     direction: desc
 
-# Used 56 times in query history.
+# Used 4 times in query history.
 - kind: Entry
   properties:
   - name: entrytype
   - name: date
     direction: desc
 
-# Used 13 times in query history.
+# Unused in query history -- copied from input.
+- kind: Entry
+  properties:
+  - name: entrytype
+  - name: monthyear
+  - name: published
+  - name: date
+    direction: desc
+
+# Used 8 times in query history.
 - kind: Entry
   properties:
   - name: entrytype
   - name: published
+  - name: date
+    direction: desc
+
+# Unused in query history -- copied from input.
+- kind: Entry
+  properties:
+  - name: entrytype
+  - name: published
+  - name: tags
   - name: date
     direction: desc
 

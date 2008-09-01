@@ -67,6 +67,7 @@
                 
             </div>
             <div class="commentmeta">
+                {{ entry.comments.views.summary }}
                 {% if entry.commentcount %}
                     <a href="#comments" title="Comment on Demiauce Comment System">{{ entry.commentcount }} comments</a>
                 {% else %} 

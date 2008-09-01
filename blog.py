@@ -10,6 +10,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext import db
 
 from model import *
+from demisaucepy import cache, cfg
 
 def rebuild_cache(blog):
     """
@@ -18,7 +19,7 @@ def rebuild_cache(blog):
     """
     pages = Entry.all().filter("entrytype =", "page").filter("published =", True).fetch(20)
     archives = Archive.all().order('-date').fetch(10)
-    recententries = Entry.all().filter('entrytype =','post').filter("published", True).order('-date').fetch(10)
+    recententries = Entry.allpublished().fetch(10)
     links = Link.all().filter('linktype =','blogroll')
     template_vals = {'recententries':recententries,'pages':pages,
             'links':links,'archives':archives}
@@ -43,6 +44,7 @@ def requires_admin(method):
             return method(self, *args, **kwargs)
     return wrapper
     
+
 def printinfo(method):
     @wraps(method)
     def wrapper(self, *args, **kwargs):
@@ -59,8 +61,13 @@ class BaseController(webapp2.RequestHandler):
     def __init__(self):
         self.template = 'index.html'
         self.blog = Blog.all().fetch(1)
+        self.demisauce_url = 'http://www.demisauce.com'
+        if 'demisauce.url' in cfg.CFG:
+            self.demisauce_url = cfg.CFG['demisauce.url']
         if self.blog == []:
-            pass
+            self.blog = Blog()
+            self.blog.initialsetup()
+            self.blog.save()
         else:
             self.blog = self.blog[0]
         current_userisadmin = False
@@ -100,7 +107,8 @@ class BaseController(webapp2.RequestHandler):
         
         self.template_vals.update({'url':url,
                          'url_linktext':url_linktext,
-                         'blog':self.blog
+                         'blog':self.blog,
+                         'demisauce_url':self.demisauce_url
                          })
         self.template_vals.update(template_vals)
         path = os.path.join(os.path.dirname(__file__), template_file)
@@ -121,8 +129,7 @@ class MainPage(BasePublicPage):
     def get(self,slug=None):
         entries = []
         if slug == None:
-            entries = Entry.all().filter('entrytype =','post').\
-                filter("published =", True).order('-date').fetch(10)
+            entries = Entry.allpublished().fetch(10)
         else:
             entries = Entry.all().filter('slug', slug).fetch(1)
             if not entries or len(entries) == 0:
@@ -131,6 +138,11 @@ class MainPage(BasePublicPage):
         
         self.render('views/index.html',{'entries':entries,'slug':slug})
     
+    def xget(self,slug=None):
+        for name in os.environ.keys():
+              self.response.out.write("%s = %s<br />\n" % (name, os.environ[name]))
+        print 'aaron is here'
+        #ln -s ~/Dropbox/demisauce/demisaucepy/trunk/demisaucepy demisaucepy
 
 class PublicPage(BasePublicPage):
     def get(self,slug=None):
@@ -140,20 +152,19 @@ class PublicPage(BasePublicPage):
 
 class ArchivePage(BasePublicPage):
     def get(self,monthyear=None):
-        entries = Entry.all().filter('monthyear', monthyear).\
-            filter("published =", True).filter('entrytype','post').order('-date')
+        entries = Entry.allpublished().filter('monthyear', monthyear)
         self.render('views/index.html',{'entries':entries})
     
 
 class TagPage(BasePublicPage):
     def get(self,tags=None):
-        entries = Entry.all().filter("tags =", tags).filter('entrytype =','post').order('-date')
+        entries = Entry.allpublished().filter("tags =", tags)
         self.render('views/index.html',{'entries':entries})
     
 
 class FeedHandler(BaseController):
     def get(self,tags=None):
-        entries = Entry.all().filter('entrytype =','post').order('-date').fetch(10)
+        entries = Entry.allpublished().fetch(10)
         if entries and entries[0]:
             last_updated = entries[0].date
             last_updated = last_updated.strftime("%Y-%m-%dT%H:%M:%SZ") 
@@ -167,7 +178,6 @@ class AdminConfig(BaseController):
     @requires_admin
     def get(self):
         blogedit = Blog.all().fetch(1)
-        #blog = Blog.all()
         if blogedit:
             blogedit = blogedit[0]
         else:
