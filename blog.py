@@ -72,6 +72,8 @@ class BaseController(webapp2.RequestHandler):
             self.blog.save()
         else:
             self.blog = self.blog[0]
+            cfg.CFG['demisauce.apikey'] = self.blog.dsapikey
+            cfg.CFG['demisauce.appname'] = self.blog.dsappname
         current_userisadmin = False
         if users.get_current_user() and users.is_current_user_admin():
             current_userisadmin = True
@@ -215,6 +217,8 @@ class AdminConfig(BaseController):
         blog.area3 = self.request.get('area3')
         blog.analyticsjs = self.request.get('analyticsjs')
         blog.commentjs = self.request.get('commentjs')
+        blog.dsapikey = self.request.get('dsapikey')
+        blog.dsappname = self.request.get('dsappname')
         blog.save()
         self.redirect('/admin/entry/list/post')
     

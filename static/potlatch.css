@@ -43,50 +43,26 @@ li{list-style:none;margin:0;}
 ----------end #page-wrapper-------------->
 <----------#footer----------------------->
 
- 
-two equal 174px right columns 
-#rightsidebar {width: 174px;}
-#content {width: 576px;margin: 0px 15px 0px 0px;}
- */
- body {text-align: center; background-color:; ; margin:0px;	padding:0px;}
- body,html {background-colorx:#EEEEEE;height:100%;}
+*/
+body {text-align: center; background-color:; ; margin:0px;	padding:0px;}
+body,html {background-colorx:#EEEEEE;height:100%;}
+/* push down the content, same height as footer since it floats */
+.push{height:1em;padding-bottom:0em;}
 /*one right column */
 
 
-#doc2 {height:100%;margin:0 auto 4.5em;min-height:100%;}
-#doc2 {width:73.076em;}
-#page-wrapper {height:auto !important;margin:0 auto -10em;min-height:100%;clear:both;}
+#doc2 {margin:0 auto 0em;}
+#doc2x {width:73.076em;}
+#page-wrapper {height:auto !important;margin:0 auto -10em;min-height:100%;}
 #header {height:4.5em;line-height:2em;overflow:hidden;}
 #header ul {list-style-image:none;list-style-position:outside;list-style-type:none;
   margin:0 auto;padding:0;display:block;text-align:left;width:73.076em;}
 
-/*
-
-#hd {height:65px;padding:min-width: 950px;background:#000;}
-#mainnav {height:30px;padding:min-width: 950px;background:#000;}
-#bd #yui-main .yui-b {min-heightx:600px;padding:0px 4px 4px 4px;}
-#doc2 {min-height:100%;height:100%;heightx:auto !important;margin:0 auto 14em;}
-#bd {background-colorxx:#fff;min-height:100%;height:100%;}
-#bd .sidebar {background:;min-height:100%;height:100%;;}
-p {margin:0px 0px 0px 0px;}
-.yui-b {margin:8px 0px 0px 0px;background-color:#fff;}
-.ib {vertical-align: bottom; }
-.yui-t7 #bd {border: red 0px solid;margin:8px 0px 0px 0px;}
-#footer-wrapper {height:14em;width:100%;}
-#ft {width:73.076em;}
-
-#dashboard, #nav ul li a, .fcomments a, #content .post h2 {letter-spacing: 1px;}
-#contentx h3, #comments h3 {margin: 10px;padding: 0px;border-bottom: 1px solid #e5e5e5;font: normal 1.4em Georgia, "Times New Roman", Times, serif;color: #333;}
-#commentsx h3 {margin: 0px 0px 2px;padding:5px;background: #ccc;border-bottom: none;}
-
-
-*/
-
 body {font-family:verdana,tahoma,helvetica,arial,sans-serif;}
-
+.clear {clear:both;}
 a, a:visited, a:hover {color:#235C9D;}
 a, a:visited, a:hover {color:#235C9D;}
-/* Ssearch */
+/* Search */
 #searchtop {float: left;border:1px solid #333;}
 #searchtop #s {font-size: 1em;padding: 2px 5px;color: #333;border: none;}
 #searchform {margin: auto;text-align:center;padding: 0px 0px 10px;}
@@ -135,8 +111,8 @@ a, a:visited, a:hover {color:#235C9D;}
 
 /* Footer Starts */
 
-#footer {background: #464646;padding: 0px;margin: 0px 0px 0px 0px;padding: 0px 0px 45px 0px;}
-.footerinner {width: 972px;margin:auto;padding: 15px 0px 15px 0px;}
+#footer {height:10em;background: #464646;padding: 0px;margin: 0px 0px 0px 0px;padding: 0px 0px 45px 0px;}
+.footerinner {width: 972px;margin:auto;}
 .footerc {float: left;margin: 0px 22px 15px 0px;padding: 2px;width: 303px;color: #dadada;}
 .footercalt {float: left;margin: 0px 0px 15px 0px;padding: 2px;width: 303px;color: #dadada;}
 .footerc h3, .footercalt h3 {font-size:110%;color: #ccc;margin: 0px;padding:5px;background: #333;letter-spacing: 1px;}
@@ -172,7 +148,7 @@ div.formbox {border:1px solid #8db2e3;margin-top:20px;}
 /*  Form elements */
 
 /* Colors & Style */
-form {background-color:#FAFAFA; }
+form {background-colorxx:#FAFAFA; }
 form fieldset {background-color:#FAFAFA; border-color: #000000; border-width: 0px; border-style: solid;}
 form fieldset legend {font-size: 1.3em; font-weight: normal; color: #235C9D;}
 input, select, textarea {font-family: Tahoma, Arial, sans-serif; font-size: 1.1em; color: #000000;}

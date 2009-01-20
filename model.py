@@ -9,12 +9,6 @@ from demisaucepy.declarative import has_a, has_many, \
 from demisaucepy import cfg
 
 
-
-
-cfg.CFG['demisauce.apikey'] = 'a95c21ee8e64cb5ff585b5f9b761b39d7cb9a202'
-cfg.CFG['demisauce.url'] = 'http://localhost:4951'
-cfg.CFG['demisauce.appname'] = 'djangodemo'
-
 class BaseModel(db.Model):
     def __init__(self, parent=None, key_name=None, _app=None, **kwds):
         self.__isdirty = False
@@ -65,6 +59,8 @@ class Blog(db.Model):
     tags = db.TextProperty(default='{}')
     analyticsjs = db.TextProperty(default='')
     commentjs = db.TextProperty(default='')
+    dsapikey = db.StringProperty(multiline=False)
+    dsappname = db.StringProperty(multiline=False)
     
     def save(self):
         self.put()

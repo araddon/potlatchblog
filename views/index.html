@@ -1,5 +1,14 @@
 {% extends "_base_public.html" %}
 
+{% block title %} 
+{% if showcomments %}
+{% for entry in entries %}
+    {{ entry.title }} 
+{% endfor %} on
+{% endif %}
+{{ blog.title }}
+{% endblock %}
+
 {% block featured %}
     <!-- Featured Starts -->
     {% if featured %}

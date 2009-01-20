@@ -75,6 +75,14 @@
                     <label for="analyticsjs">Comment Javascript:</label>
                     <textarea name="commentjs" rows="4" cols="60" class="wide">{{ blog.commentjs }}</textarea>
                 </div>
+                <div class="required">
+                    <label for="dsapikey">Demisauce API key:</label>
+                    <input type="text" size="100" id="dsapikey" name="dsapikey"  value="{{ blog.dsapikey }}">
+                </div>
+                <div class="required">
+                    <label for="dsappname">Demisauce App Name:</label>
+                    <input type="text" size="100" id="dsappname" name="dsappname"  value="{{ blog.dsappname }}">
+                </div>
             </fieldset>
             <div class="actions">
                     <input type="submit" class="primaryAction" id="submit" value="Save &#187;">
